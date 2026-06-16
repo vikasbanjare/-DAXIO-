@@ -267,6 +267,19 @@ button{font-family:inherit;}
 .note-foot button.txt:hover{color:var(--ink);}
 .note-foot .resolve.done{color:var(--ok);}
 .note-foot button.txt svg{width:13px;height:13px;}
+.note-foot button.txt:hover{background:var(--panel);border-radius:6px;}
+.note-foot .del{color:var(--muted);padding:3px;}
+.note-foot .del:hover{color:var(--danger);background:var(--danger-soft);}
+.note.active{border-color:var(--accent);box-shadow:var(--glow);background:var(--panel-3);}
+.done-pill{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;color:var(--ok);background:var(--ok-soft);border-radius:var(--r-pill);padding:1px 8px;}
+.done-pill svg{width:10px;height:10px;}
+.note.resolved .note-body{color:var(--ink-2);}
+.confirm-row{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--ink-2);font-weight:600;}
+.confirm-row .spacer{flex:1;}
+.confirm-row .cf-no{background:none;border:1px solid var(--line);border-radius:7px;padding:5px 11px;color:var(--ink-2);font-size:12px;font-weight:600;cursor:pointer;}
+.confirm-row .cf-no:hover{color:var(--ink);}
+.confirm-row .cf-yes{background:var(--danger);border:none;border-radius:7px;padding:5px 13px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;}
+.confirm-row .cf-yes:hover{filter:brightness(1.08);}
 .replies{margin-top:8px;padding-left:10px;border-left:2px solid var(--line-2);display:flex;flex-direction:column;gap:6px;}
 .reply{font-size:12px;color:var(--ink-2);} .reply b{font-weight:600;color:var(--ink);}
 .reply-box{display:flex;gap:6px;margin-top:6px;}
@@ -765,12 +778,14 @@ function reactRow(c){ const r=c.reactions||{}; const chips=Object.keys(r).filter
 function noteHTML(v,c){ const reps=(c.replies||[]).map(r=>`<div class="reply"><b>${esc(r.author)}</b> ${mentions(r.body)}</div>`).join('');
   const draw=c.drawing?`<div class="note-thumb"><svg viewBox="0 0 100 60" preserveAspectRatio="none">${c.drawing.map(s=>`<polyline fill="none" stroke="#F94B1E" stroke-width="1.4" points="${s.map(p=>(p.x*100).toFixed(1)+','+(p.y*60).toFixed(1)).join(' ')}"/>`).join('')}</svg></div>`:'';
   return `<div class="note ${c.resolved?'resolved':''}" data-c="${c.id}">
-    <div class="note-top">${av(c.author,'avatar-sm')}<span class="note-author">${esc(c.author)}</span>${chip(c)}<span class="note-when">${timeAgo(c.createdAt)}</span></div>
+    <div class="note-top">${av(c.author,'avatar-sm')}<span class="note-author">${esc(c.author)}</span>${chip(c)}${c.resolved?`<span class="done-pill">${I.check}Resolved</span>`:''}<span class="note-when">${timeAgo(c.createdAt)}</span></div>
     <div class="note-body">${mentions(c.body)}</div>${draw}
-    <div class="note-foot">${reactRow(c)}<span class="spacer"></span>
-      <button class="txt reply-toggle">${I.reply}Reply</button>
-      <button class="txt resolve ${c.resolved?'done':''}">${I.check}${c.resolved?'Resolved':'Resolve'}</button></div>
     ${reps?`<div class="replies">${reps}</div>`:''}
+    <div class="note-foot">${reactRow(c)}<span class="spacer"></span>
+      <button class="txt reply-toggle" title="Reply">${I.reply}<span class="lbl">Reply</span></button>
+      <button class="txt resolve ${c.resolved?'done':''}" title="${c.resolved?'Reopen':'Resolve'}">${I.check}<span class="lbl">${c.resolved?'Reopen':'Resolve'}</span></button>
+      <button class="txt del" title="Delete note">${I.trash}</button></div>
+    <div class="confirm-row" hidden>Delete this note?<span class="spacer"></span><button class="cf-no">Cancel</button><button class="cf-yes">Delete</button></div>
     <div class="reply-box" hidden><input placeholder="Reply…"><button class="btn btn-soft btn-sm">Send</button></div></div>`; }
 function wireNote(node,a,v){ const c=v.comments.find(x=>x.id===node.dataset.c); if(!c)return;
   const j=$('[data-jump]',node); if(j)j.onclick=()=>{ const tt=c.inOut?c.inOut.a:c.t;
@@ -782,7 +797,11 @@ function wireNote(node,a,v){ const c=v.comments.find(x=>x.id===node.dataset.c); 
   $('.btn',rb).onclick=send; $('input',rb).onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();send();}};
   $all('.react[data-emoji]',node).forEach(b=>b.onclick=()=>toggleReact(c,b.dataset.emoji,a,v));
   $('[data-add]',node).onclick=(e)=>{e.stopPropagation();reactPalette(node,c,a,v);};
-  node.addEventListener('click',e=>{ if(e.target.closest('button')||e.target.closest('input')||e.target.closest('textarea')||e.target.closest('[data-jump]')||e.target.closest('.reply-box'))return; selectNote(c.id); });
+  const foot=$('.note-foot',node),cfr=$('.confirm-row',node);
+  $('.del',node).onclick=e=>{e.stopPropagation();foot.hidden=true;cfr.hidden=false;};
+  $('.cf-no',cfr).onclick=e=>{e.stopPropagation();cfr.hidden=true;foot.hidden=false;};
+  $('.cf-yes',cfr).onclick=e=>{e.stopPropagation();v.comments=v.comments.filter(x=>x.id!==c.id);if(cur.selectedId===c.id)cur.selectedId=null;save();renderThread(a,v);renderLibrarySilently();toast('Note deleted.');};
+  node.addEventListener('click',e=>{ if(e.target.closest('button')||e.target.closest('input')||e.target.closest('textarea')||e.target.closest('[data-jump]')||e.target.closest('.reply-box')||e.target.closest('.confirm-row'))return; selectNote(c.id); });
 }
 function toggleReact(c,emoji,a,v){ const r=c.reactions=c.reactions||{}; r[emoji]=r[emoji]||[]; const i=r[emoji].indexOf(me()); if(i>=0)r[emoji].splice(i,1);else r[emoji].push(me()); if(!r[emoji].length)delete r[emoji]; save(); renderThread(a,v); }
 function reactPalette(node,c,a,v){ const old=$('.rpal',node); if(old){old.remove();return;} const pal=document.createElement('span'); pal.className='react-row rpal';
