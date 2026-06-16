@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Product — Cue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="cue.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav"><div class="nav-inner">
+  <a href="index.html" class="brand"><span class="brand-mark"></span><span class="brand-name">Cue</span></a>
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html#review">Review</a>
+    <a href="product.html" class="active">Product</a>
+    <a href="index.html#capture">Capture</a>
+    <a href="index.html#security">Security</a>
+    <a href="pricing.html">Pricing</a>
+  </nav>
+  <div class="nav-right">
+    <a href="#" class="signin">Sign in</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+    <a href="pricing.html" class="btn btn-dark btn-sm">Start free</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">☰</button>
+  </div>
+</div></header>
+
+<!-- PAGE HERO -->
+<section class="page-hero"><div class="glow glow-hero"></div>
+  <div class="wrap">
+    <div class="eyebrow" style="justify-content:center;">The Cue platform</div>
+    <h1 class="h1">Everything your review<br>actually needs.</h1>
+    <p class="lead">From the first proxy off the camera to the final approved master — one workspace where footage, feedback, versions and sign-off all live together.</p>
+    <div class="hero-cta" style="justify-content:center;">
+      <a href="pricing.html" class="btn btn-primary">Start for free</a>
+      <a href="#how" class="btn btn-outline">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- BIG SHOWCASE -->
+<section class="section" style="padding-top:24px;"><div class="wrap" data-tilt>
+  <div class="device" style="max-width:980px;margin:0 auto;">
+    <div class="device-bar">
+      <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+        <div class="dots"><span style="background:#F94B1E"></span><span style="background:#E8B04B"></span><span style="background:#3FB984"></span></div>
+        <span class="proj">Atlas Post — Documentary Ep. 03</span>
+        <span class="chip-rev" style="color:#3FB984;background:rgba(63,185,132,0.16);">Approved</span>
+      </div>
+      <button class="btn btn-primary btn-sm" style="padding:8px 14px;font-size:12px;">Share</button>
+    </div>
+    <div style="display:flex;gap:12px;align-items:stretch;">
+      <div style="flex:2 1 0;min-width:0;display:flex;flex-direction:column;gap:10px;">
+        <div class="screen" style="background:linear-gradient(120deg,#16243a 0%,#3a2c52 45%,#7a3b57 80%,#c7892f 100%);">
+          <div class="sheen"></div><div class="bigplay"><span></span></div>
+          <div class="pin" style="top:34%;left:44%;background:#E8B04B;">1</div>
+          <div class="tc" style="bottom:12px;left:12px;">01:12:08 / 02:40:00</div>
+          <div class="tc" style="bottom:12px;right:12px;font-size:11px;">UHD · HDR</div>
+        </div>
+        <div style="position:relative;height:38px;background:#141210;border:1px solid var(--dev-line);border-radius:10px;padding:0 12px;display:flex;align-items:center;">
+          <div style="position:relative;width:100%;height:5px;background:rgba(255,255,255,0.12);border-radius:999px;">
+            <div style="position:absolute;left:0;top:0;height:5px;width:62%;background:#F94B1E;border-radius:999px;"></div>
+            <span style="position:absolute;top:-19px;width:2px;height:24px;background:#FBF8F1;left:62%;box-shadow:0 0 0 3px rgba(11,10,8,0.6);"></span>
+            <span style="position:absolute;top:-7px;left:26%;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid #E8B04B;"></span>
+            <span style="position:absolute;top:-7px;left:48%;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid #3FB984;"></span>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1 1 0;min-width:220px;background:#110F0D;border:1px solid var(--dev-line);border-radius:13px;padding:14px;display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;"><span style="color:#FBF8F1;font-weight:700;font-size:14px;">Versions</span><span class="mono" style="font-size:11px;color:#8A8275;background:rgba(255,255,255,0.06);padding:2px 8px;border-radius:999px;">v1–v6</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:10px;background:#1B1815;border-radius:9px;padding:9px 11px;"><span class="mono" style="font-size:11px;color:#8A8275;">v6</span><span style="font-size:12px;color:#E7E1D4;font-weight:600;">Final grade</span><span class="mono" style="margin-left:auto;font-size:10px;color:#3FB984;">approved</span></div>
+          <div style="display:flex;align-items:center;gap:10px;background:#1B1815;border-radius:9px;padding:9px 11px;opacity:.65;"><span class="mono" style="font-size:11px;color:#8A8275;">v5</span><span style="font-size:12px;color:#C9C2B4;">Sound mix</span><span class="mono" style="margin-left:auto;font-size:10px;color:#8A8275;">superseded</span></div>
+          <div style="display:flex;align-items:center;gap:10px;background:#1B1815;border-radius:9px;padding:9px 11px;opacity:.5;"><span class="mono" style="font-size:11px;color:#8A8275;">v4</span><span style="font-size:12px;color:#C9C2B4;">Rough cut</span><span class="mono" style="margin-left:auto;font-size:10px;color:#8A8275;">superseded</span></div>
+        </div>
+        <div style="margin-top:auto;display:flex;align-items:center;gap:8px;background:#1B1815;border:1px solid var(--dev-line);border-radius:9px;padding:9px 11px;"><span class="mono" style="font-size:10px;color:#3FB984;">✓</span><span style="color:#A9A293;font-size:12px;">Signed off by 3 reviewers</span></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- FEATURE SPLITS -->
+<section class="section" style="padding-top:0;"><div class="wrap"><div class="split">
+  <div>
+    <div class="eyebrow">Review room</div>
+    <h2 class="h2" style="margin-top:18px;">Comment on the frame. Draw on the frame. Approve on the frame.</h2>
+    <p class="lead">Every note carries its exact timecode and an optional sketch, so the edit bay never guesses what "that bit near the end" means.</p>
+    <ul class="checks">
+      <li><span class="ck">✓</span><span>Auto-pinned timecodes &amp; range comments</span></li>
+      <li><span class="ck">✓</span><span>Freehand drawing &amp; on-frame markers</span></li>
+      <li><span class="ck">✓</span><span>Threaded replies, reactions &amp; @mentions</span></li>
+      <li><span class="ck">✓</span><span>Open / Resolved filters so nothing slips</span></li>
+    </ul>
+  </div>
+  <div class="tilt-zone order-1" data-tilt>
+    <div class="device" style="padding:18px;">
+      <div class="screen" style="aspect-ratio:4/3;background:linear-gradient(150deg,#1d3a34 0%,#2f2a4a 50%,#7a3b40 100%);">
+        <div class="sheen"></div>
+        <div class="pin" style="top:30%;left:38%;width:28px;height:28px;background:#F94B1E;">1</div>
+        <svg viewBox="0 0 100 75" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"><path d="M28 40 q16 -10 34 4" fill="none" stroke="#FBF8F1" stroke-width="0.8" stroke-dasharray="2 2" opacity="0.7"/></svg>
+        <div class="tc" style="bottom:12px;left:12px;font-size:11px;">00:31:11</div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:10px;align-items:flex-start;background:#141210;border-radius:11px;padding:12px;">
+        <span class="av" style="flex:none;width:30px;height:30px;background:#F94B1E;color:#17130D;font-size:11px;">TS</span>
+        <div style="line-height:1.45"><div style="display:flex;gap:8px;align-items:baseline;"><span class="nm" style="font-size:13px;">Theo S.</span><span class="mono" style="font-size:10px;color:#F94B1E;">drew on 00:31:11</span></div><div class="tx" style="font-size:13px;">Lose the lens flare here — distracting on the logo.</div></div>
+      </div>
+    </div>
+  </div>
+</div></div></section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how" style="padding-top:0;"><div class="wrap">
+  <div class="center" style="max-width:680px;margin:0 auto 48px;">
+    <div class="eyebrow" style="justify-content:center;">How it works</div>
+    <h2 class="h2" style="margin-top:16px;">Set up a review in three steps.</h2>
+  </div>
+  <div class="steps">
+    <div class="step"><h3 class="h3">Upload or capture</h3><p>Drag a cut in, or stream proxies straight off set with Cue Capture. Versions stack automatically.</p></div>
+    <div class="step"><h3 class="h3">Share one link</h3><p>Send a password-protected page. Reviewers comment in-browser — no account, no downloads.</p></div>
+    <div class="step"><h3 class="h3">Resolve &amp; approve</h3><p>Action notes by timecode, mark them resolved, and lock sign-off before anything ships.</p></div>
+  </div>
+</div></section>
+
+<!-- FEATURE GRID -->
+<section class="section" style="padding-top:0;"><div class="wrap">
+  <div class="grid-3">
+    <div class="card"><div class="ico">◎</div><h3 class="h3">Frame-accurate playback</h3><p>Step frame-by-frame, loop a range, change speed, and read SMPTE timecode on every clip.</p></div>
+    <div class="card"><div class="ico">▦</div><h3 class="h3">Version compare</h3><p>Put v5 and v6 side-by-side and scrub them together to spot exactly what changed.</p></div>
+    <div class="card"><div class="ico">⚡</div><h3 class="h3">Automations</h3><p>Approved? Auto-notify the colorist, move the card, and kick the export. No babysitting.</p></div>
+    <div class="card"><div class="ico">🔒</div><h3 class="h3">Forensic watermark</h3><p>Session-level marks on every stream, so unreleased work stays traceable.</p></div>
+    <div class="card"><div class="ico">↻</div><h3 class="h3">Realtime presence</h3><p>See who's watching, where their playhead is, and react together — live.</p></div>
+    <div class="card"><div class="ico">⌘</div><h3 class="h3">Lives in your tools</h3><p>Premiere, Resolve and Final Cut panels push cuts and pull notes without leaving the bay.</p></div>
+  </div>
+</div></section>
+
+<!-- STATS -->
+<section class="section-sm section--accent"><div class="wrap"><div class="stats">
+  <div><div class="n">&lt; 8s</div><div class="l">set → cloud</div></div>
+  <div><div class="n">63%</div><div class="l">faster sign-off</div></div>
+  <div><div class="n">v1–v∞</div><div class="l">version stacks</div></div>
+  <div><div class="n">4.9</div><div class="l">avg. team rating</div></div>
+</div></div></section>
+
+<!-- CTA -->
+<section class="section section--contrast" style="padding:100px 0;"><div class="glow glow-b"></div>
+  <div class="wrap center" style="max-width:820px;">
+    <h2 class="h1" style="font-size:clamp(36px,5vw,64px);">Try the whole thing <span class="accent">free.</span></h2>
+    <p class="lead" style="margin:22px auto 0;max-width:48ch;">Two members, three projects, frame-accurate review — no card required.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:34px;">
+      <a href="pricing.html" class="btn btn-primary" style="font-size:17px;padding:16px 30px;">Start for free</a>
+      <a href="pricing.html" class="btn btn-outline" style="color:var(--cream);border-color:rgba(255,255,255,0.16);">See pricing</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer"><div class="wrap">
+  <div class="footer-grid">
+    <div>
+      <a href="index.html" class="brand"><span class="brand-mark"></span><span class="brand-name">Cue</span></a>
+      <p style="font-size:14px;line-height:1.6;color:#8A8275;max-width:30ch;margin:0 0 18px;">The creative review and collaboration platform for video teams who'd rather be editing.</p>
+      <div class="mono" style="font-size:11px;color:#6E6759;">SOC 2 Type II · GDPR ready</div>
+    </div>
+    <div class="col"><div class="col-h">Product</div><a href="index.html#review">Review</a><a href="product.html">Product</a><a href="index.html#capture">Capture</a><a href="pricing.html">Pricing</a></div>
+    <div class="col"><div class="col-h">Company</div><a href="#">About</a><a href="#">Careers</a><a href="#">Customers</a><a href="#">Blog</a></div>
+    <div class="col"><div class="col-h">Resources</div><a href="#">Docs</a><a href="#">API</a><a href="index.html#security">Security</a><a href="#">Status</a></div>
+    <div class="col"><div class="col-h">Connect</div><a href="#">Contact</a><a href="#">X / Twitter</a><a href="#">LinkedIn</a><a href="#">YouTube</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Cue Labs, Inc. All rights reserved.</span><div><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div></div>
+</div></footer>
+
+<script src="cue.js"></script>
+</body>
+</html>

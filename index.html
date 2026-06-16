@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Review — collect feedback on every frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="tb-left">
+    <button id="backBtn" class="icon-btn" hidden aria-label="Back"></button>
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span class="brand-name">Review</span></div>
+    <span id="crumb" class="crumb"></span>
+  </div>
+  <div class="tb-right">
+    <div id="presence" class="presence" hidden></div>
+    <div id="reviewActions" class="review-actions" hidden>
+      <span id="statusBadge" class="status-badge"></span>
+      <button id="shareBtn" class="btn btn-ghost"></button>
+      <button id="requestBtn" class="btn btn-soft"></button>
+      <button id="approveBtn" class="btn btn-primary"></button>
+    </div>
+    <button id="newBtn" class="btn btn-primary"></button>
+    <div class="user-wrap">
+      <button id="userBtn" class="avatar-btn" aria-haspopup="true"></button>
+      <div id="userMenu" class="menu" hidden></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ Library ============ -->
+<main id="libraryView" class="view">
+  <div class="lib-head">
+    <div><h1>Reviews</h1><p id="libSub" class="muted"></p></div>
+  </div>
+  <div id="libGrid" class="lib-grid"></div>
+  <div id="libEmpty" class="empty" hidden></div>
+</main>
+
+<!-- ============ Review ============ -->
+<main id="reviewView" class="view review" hidden>
+  <div class="rv-grid">
+    <section class="stage-col">
+      <div class="version-bar">
+        <div id="versionTabs" class="version-tabs"></div>
+        <div class="vbar-right">
+          <button id="compareBtn" class="chip-btn" hidden></button>
+          <label class="chip-btn" id="addVersionLabel"><input id="addVersionInput" type="file" accept="image/*,video/*" hidden /><span></span></label>
+        </div>
+      </div>
+
+      <div id="stageRow" class="stage-row">
+        <div class="stage-cell">
+          <div id="stage" class="stage"></div>
+        </div>
+        <div class="stage-cell" id="stage2Cell" hidden>
+          <div id="stage2" class="stage"></div>
+          <div class="stage2-label" id="stage2Label"></div>
+        </div>
+      </div>
+
+      <div id="controls" class="controls" hidden>
+        <button id="playBtn" class="ctl" aria-label="Play / pause"></button>
+        <span id="timecode" class="timecode">00:00:00:00</span>
+        <div id="timeline" class="timeline" role="slider" tabindex="0" aria-label="Timeline" aria-valuemin="0">
+          <div id="timeProgress" class="time-progress"></div>
+          <div id="markers" class="markers"></div>
+          <div id="playhead" class="playhead"></div>
+          <div id="timeHover" class="time-hover" hidden></div>
+        </div>
+        <button id="frameBack" class="ctl" aria-label="Previous frame" title="Previous frame (,)"></button>
+        <button id="frameFwd" class="ctl" aria-label="Next frame" title="Next frame (.)"></button>
+        <button id="speedBtn" class="ctl ctl-text" aria-label="Playback speed">1×</button>
+        <button id="muteBtn" class="ctl" aria-label="Mute"></button>
+        <input id="volume" class="volume" type="range" min="0" max="1" step="0.05" value="1" aria-label="Volume" />
+        <button id="loopBtn" class="ctl" aria-label="Loop" title="Loop"></button>
+        <button id="fsBtn" class="ctl" aria-label="Fullscreen"></button>
+      </div>
+    </section>
+
+    <aside class="comments-col">
+      <div class="comments-head">
+        <div id="filters" class="filters" role="tablist"></div>
+        <button id="exportBtn" class="icon-btn" aria-label="Export feedback" title="Export feedback"></button>
+      </div>
+      <div id="threadList" class="thread-list"></div>
+      <div class="composer">
+        <div class="composer-tools">
+          <span id="pinChip" class="pin-chip" hidden></span>
+          <button id="pinToggle" class="tool-btn" title="Pin a spot on the frame"></button>
+          <button id="drawToggle" class="tool-btn" title="Draw on the frame"></button>
+          <button id="rangeToggle" class="tool-btn" title="Mark an in → out range"></button>
+        </div>
+        <div class="composer-box">
+          <textarea id="commentInput" rows="2" placeholder="Leave a comment… @ to mention"></textarea>
+          <div id="mentionMenu" class="mention-menu" hidden></div>
+        </div>
+        <div class="composer-foot">
+          <span class="hint">⌘/Ctrl + Enter</span>
+          <button id="postBtn" class="btn btn-primary btn-sm" disabled>Comment</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<div id="modalRoot" class="modal-root" hidden>
+  <div class="modal-scrim" data-close></div>
+  <div id="modalCard" class="modal-card" role="dialog" aria-modal="true"></div>
+</div>
+<div id="toastHost" class="toast-host" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
