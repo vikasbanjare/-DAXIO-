@@ -1,16 +1,16 @@
-# Cue — website (flat, no folders)
+# Daxio — website (flat, no folders)
 
 Marketing site + a single-file review-app demo. Plain HTML/CSS/JS, **no folders** — every file sits at the top
 level, so you can upload them one-by-one on GitHub with nothing to organise.
 
 ## Files (all at the top level)
 ```
-index.html      ← homepage (the Cue landing)
+index.html      ← homepage (the Daxio landing)
 product.html    ← product / features page
 pricing.html    ← pricing page
 app.html        ← the whole review app, in ONE file (no app.css/app.js needed)
-cue.css         ← styles for the marketing pages
-cue.js          ← theme toggle + interactions
+daxio.css         ← styles for the marketing pages
+daxio.js          ← theme toggle + interactions
 .nojekyll       ← (optional) keeps GitHub Pages serving files as-is
 ```
 The landing's **"Open app" / "Start for free"** buttons link to `app.html`.
@@ -18,7 +18,7 @@ The landing's **"Open app" / "Start for free"** buttons link to `app.html`.
 ## Upload to GitHub (web, one file at a time — no folders)
 1. Create a GitHub account → **New repository** (e.g. `cue-web`), Public.
 2. On the repo page: **Add file → Upload files**.
-3. Select **all 6 files above** (index.html, product.html, pricing.html, app.html, cue.css, cue.js) and drop them in. Commit.
+3. Select **all 6 files above** (index.html, product.html, pricing.html, app.html, daxio.css, daxio.js) and drop them in. Commit.
    - ⚠️ Do **not** put a second `index.html` anywhere — there's only one homepage.
 4. **Settings → Pages → Source: Deploy from a branch → `main` / `(root)`** → Save.
 5. ~1 min later it's live at `https://<your-username>.github.io/cue-web/` (the app opens at `…/app.html`).
