@@ -75,9 +75,11 @@
         </div>
         <div style="display:flex;gap:12px;align-items:stretch;">
           <div style="flex:2 1 0;min-width:0;display:flex;flex-direction:column;gap:10px;">
-            <div class="screen" style="background:linear-gradient(120deg,#1B2A3A 0%,#2E4257 38%,#C2622E 86%,#E89A3C 100%);">
+            <div class="screen demo-reel">
+              <div class="reel-bg"></div>
+              <div class="reel-light"></div>
               <div class="sheen"></div>
-              <div class="bigplay"><span></span></div>
+              <div class="reel-grain"></div>
               <div class="pin demo-pin" style="top:30%;left:58%;background:#F94B1E;">2</div>
               <div class="tc" style="bottom:12px;left:12px;">00:42:17 / 01:58:04</div>
               <div class="tc" style="bottom:12px;right:12px;font-size:11px;">4K · ProRes</div>
@@ -128,12 +130,12 @@
     <div class="device" style="padding:18px;">
       <div class="screen" style="aspect-ratio:4/3;background:linear-gradient(150deg,#243042 0%,#3C2E4A 50%,#7A3B57 100%);">
         <div class="sheen"></div>
-        <div class="pin" style="top:22%;left:30%;width:28px;height:28px;background:#E8B04B;">1</div>
-        <div class="pin" style="top:54%;left:62%;width:28px;height:28px;background:#F94B1E;">2</div>
-        <svg viewBox="0 0 100 75" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"><path d="M30 44 q14 -8 30 2" fill="none" stroke="#FBF8F1" stroke-width="0.8" stroke-dasharray="2 2" opacity="0.7"/></svg>
+        <div class="pin rv-pin1" style="top:22%;left:30%;width:28px;height:28px;background:#E8B04B;">1</div>
+        <div class="pin rv-pin2" style="top:54%;left:62%;width:28px;height:28px;background:#F94B1E;">2</div>
+        <svg viewBox="0 0 100 75" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"><path class="rv-draw" pathLength="1" d="M30 44 q14 -8 30 2" fill="none" stroke="#FBF8F1" stroke-width="1.2" stroke-dasharray="1" stroke-dashoffset="1" opacity="0.85"/></svg>
         <div class="tc" style="bottom:12px;left:12px;font-size:11px;">00:12:04</div>
       </div>
-      <div style="margin-top:14px;display:flex;gap:10px;align-items:flex-start;background:#141210;border-radius:11px;padding:12px;">
+      <div class="rv-note" style="margin-top:14px;display:flex;gap:10px;align-items:flex-start;background:#141210;border-radius:11px;padding:12px;">
         <span class="av" style="flex:none;width:30px;height:30px;background:#E8B04B;color:#17130D;font-size:11px;">AR</span>
         <div style="line-height:1.45"><div style="display:flex;gap:8px;align-items:baseline;"><span class="nm" style="font-size:13px;">Aria R.</span><span class="mono" style="font-size:10px;color:#E8B04B;">drew on 00:12:04</span></div><div class="tx" style="font-size:13px;">Soften this edge — feels a touch sharp against the sky.</div></div>
       </div>
@@ -149,12 +151,12 @@
       <button class="btn btn-dark btn-sm" style="margin-left:auto;padding:7px 13px;font-size:12px;">Copy link</button>
     </div>
     <div class="screen" style="margin-top:14px;background:linear-gradient(135deg,#14322E 0%,#1F5347 45%,#C7892F 100%);">
-      <div class="bigplay"><span></span></div>
+      <div class="bigplay sh-play"><span></span></div>
       <div class="tc" style="top:12px;left:12px;font-size:10px;border-radius:999px;">🔒 Password protected</div>
     </div>
     <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">
-      <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-2);"><span style="width:8px;height:8px;border-radius:50%;background:#3FB984;"></span><strong style="color:var(--ink);">Client · Maya K.</strong> watched to the end<span class="mono" style="margin-left:auto;font-size:11px;color:var(--muted);">2m ago</span></div>
-      <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-2);"><span style="width:8px;height:8px;border-radius:50%;background:#E8B04B;"></span><strong style="color:var(--ink);">Brand · Devon P.</strong> watched 0:00–1:12<span class="mono" style="margin-left:auto;font-size:11px;color:var(--muted);">14m ago</span></div>
+      <div class="sh-row sh-row1" style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-2);"><span style="width:8px;height:8px;border-radius:50%;background:#3FB984;"></span><strong style="color:var(--ink);">Client · Maya K.</strong> watched to the end<span class="mono" style="margin-left:auto;font-size:11px;color:var(--muted);">2m ago</span></div>
+      <div class="sh-row sh-row2" style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-2);"><span style="width:8px;height:8px;border-radius:50%;background:#E8B04B;"></span><strong style="color:var(--ink);">Brand · Devon P.</strong> watched 0:00–1:12<span class="mono" style="margin-left:auto;font-size:11px;color:var(--muted);">14m ago</span></div>
     </div>
   </div>
   <div>
@@ -185,9 +187,9 @@
       <div class="device" style="background:#141210;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><span style="color:#C9C2B4;font-size:13px;font-weight:700;">Capture · A-Cam</span><span class="chip-rev" style="color:#F94B1E;background:rgba(249,75,30,0.16);display:inline-flex;align-items:center;gap:6px;"><span style="width:6px;height:6px;border-radius:50%;background:#F94B1E;animation:cuePulse 1.4s ease-in-out infinite;"></span>Uploading</span></div>
         <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="background:#1B1815;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:12px;"><span class="mono" style="font-size:11px;color:#8A8275;flex:none;">A001_C014</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.10);border-radius:999px;overflow:hidden;"><div style="height:100%;width:100%;background:#3FB984;"></div></div><span class="mono" style="font-size:11px;color:#3FB984;flex:none;">done</span></div>
-          <div style="background:#1B1815;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:12px;"><span class="mono" style="font-size:11px;color:#8A8275;flex:none;">A001_C015</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.10);border-radius:999px;overflow:hidden;"><div style="height:100%;width:68%;background:#F94B1E;"></div></div><span class="mono" style="font-size:11px;color:#F94B1E;flex:none;">68%</span></div>
-          <div style="background:#1B1815;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:12px;"><span class="mono" style="font-size:11px;color:#8A8275;flex:none;">A001_C016</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.10);border-radius:999px;overflow:hidden;"><div style="height:100%;width:12%;background:#6E6759;"></div></div><span class="mono" style="font-size:11px;color:#8A8275;flex:none;">queued</span></div>
+          <div style="background:#1B1815;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:12px;"><span class="mono" style="font-size:11px;color:#8A8275;flex:none;">A001_C014</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.10);border-radius:999px;overflow:hidden;"><div class="cap-bar1" style="height:100%;width:100%;background:#3FB984;"></div></div><span class="mono" style="font-size:11px;color:#3FB984;flex:none;">done</span></div>
+          <div style="background:#1B1815;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:12px;"><span class="mono" style="font-size:11px;color:#8A8275;flex:none;">A001_C015</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.10);border-radius:999px;overflow:hidden;"><div class="cap-bar2" style="height:100%;width:68%;background:#F94B1E;"></div></div><span class="mono" style="font-size:11px;color:#F94B1E;flex:none;">68%</span></div>
+          <div style="background:#1B1815;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:12px;"><span class="mono" style="font-size:11px;color:#8A8275;flex:none;">A001_C016</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.10);border-radius:999px;overflow:hidden;"><div class="cap-bar3" style="height:100%;width:12%;background:#6E6759;"></div></div><span class="mono" style="font-size:11px;color:#8A8275;flex:none;">queued</span></div>
         </div>
         <div style="margin-top:14px;border-top:1px dashed rgba(255,255,255,0.10);padding-top:12px;display:flex;justify-content:space-between;" class="mono"><span style="font-size:11px;color:#8A8275;">3 clips · 14.2 GB</span><span style="font-size:11px;color:#3FB984;">↑ synced to Editorial</span></div>
       </div>

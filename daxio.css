@@ -264,3 +264,43 @@ section{position:relative;}
 .demo-pin{animation:dxPin 6.5s ease-in-out infinite;}
 .demo-note{animation:dxNote 6.5s ease-in-out infinite;}
 @media (prefers-reduced-motion:reduce){.demo-playhead,.demo-progress,.demo-pin,.demo-note{animation:none;}.hero .device{transition:none;}}
+
+/* ===== hero: animated "footage" playing in the frame ===== */
+.demo-reel{background:#0a0f16;}
+.reel-bg{position:absolute;inset:-14%;background:linear-gradient(120deg,#16263a 0%,#2E4257 34%,#9c4f25 76%,#E89A3C 100%);animation:reelPan 11s ease-in-out infinite alternate;}
+.reel-light{position:absolute;inset:0;background:radial-gradient(240px 180px at 14% 24%,rgba(255,255,255,.30),transparent 60%);mix-blend-mode:screen;animation:reelLight 7s ease-in-out infinite alternate;}
+.reel-grain{position:absolute;inset:0;opacity:.10;mix-blend-mode:overlay;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:reelGrain .5s steps(2) infinite;}
+@keyframes reelPan{0%{transform:scale(1.08) translate(2%,1%)}100%{transform:scale(1.28) translate(-6%,-5%)}}
+@keyframes reelLight{0%{transform:translate(-20px,10px)}100%{transform:translate(190px,-12px)}}
+@keyframes reelGrain{0%{transform:translate(0,0)}100%{transform:translate(-7px,5px)}}
+
+/* ===== Review section: pins drop + annotation draws + note slides in ===== */
+.rv-pin1{animation:rvPin1 6.5s ease-in-out infinite;}
+.rv-pin2{animation:rvPin2 6.5s ease-in-out infinite;}
+.rv-draw{animation:rvDraw 6.5s ease-in-out infinite;}
+.rv-note{animation:rvNote 6.5s ease-in-out infinite;}
+@keyframes rvPin1{0%,4%{opacity:0;transform:scale(.3)}10%{opacity:1;transform:scale(1.18)}16%{transform:scale(1)}90%{opacity:1}97%,100%{opacity:0;transform:scale(.3)}}
+@keyframes rvPin2{0%,26%{opacity:0;transform:scale(.3)}32%{opacity:1;transform:scale(1.18)}38%{transform:scale(1)}90%{opacity:1}97%,100%{opacity:0;transform:scale(.3)}}
+@keyframes rvDraw{0%,16%{stroke-dashoffset:1}42%{stroke-dashoffset:0}90%{stroke-dashoffset:0}99%,100%{stroke-dashoffset:1}}
+@keyframes rvNote{0%,42%{opacity:0;transform:translateY(10px)}52%{opacity:1;transform:none}90%{opacity:1}100%{opacity:0;transform:translateY(10px)}}
+
+/* ===== Share section: play pulses + viewer logs stream in ===== */
+.sh-play span{animation:shPlay 2.4s ease-in-out infinite;}
+@keyframes shPlay{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.5)}50%{box-shadow:0 0 0 16px rgba(255,255,255,0)}}
+.sh-row{opacity:0;}
+.sh-row1{animation:shRow 5.5s ease-in-out infinite;}
+.sh-row2{animation:shRow 5.5s ease-in-out infinite;animation-delay:.7s;}
+@keyframes shRow{0%,8%{opacity:0;transform:translateY(8px)}18%{opacity:1;transform:none}92%{opacity:1}100%{opacity:0;transform:translateY(8px)}}
+
+/* ===== Capture section: upload bars fill ===== */
+.cap-bar1{animation:capFill1 5s ease-out infinite;}
+.cap-bar2{animation:capFill2 5s ease-out infinite;}
+.cap-bar3{animation:capFill3 5s ease-out infinite;}
+@keyframes capFill1{0%{width:0}24%{width:100%}100%{width:100%}}
+@keyframes capFill2{0%{width:0}40%{width:42%}82%{width:78%}100%{width:78%}}
+@keyframes capFill3{0%{width:0}62%{width:7%}100%{width:22%}}
+
+@media (prefers-reduced-motion:reduce){
+  .reel-bg,.reel-light,.reel-grain,.rv-pin1,.rv-pin2,.rv-draw,.rv-note,.sh-play span,.sh-row1,.sh-row2,.cap-bar1,.cap-bar2,.cap-bar3{animation:none !important;}
+  .sh-row{opacity:1;}
+}

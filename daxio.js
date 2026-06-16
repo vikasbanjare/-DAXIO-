@@ -51,21 +51,29 @@
 })();
 
 
-/* scroll-driven 3D on the hero device */
+/* interactive 3D parallax on the hero (follows the cursor) */
 (function(){
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function init(){
-    var dev = document.querySelector('[data-hero] .device');
+    if(reduce) return;
+    var hero = document.querySelector('[data-hero]');
+    var dev  = document.querySelector('[data-hero] .device');
     var glow = document.querySelector('.hero .glow-hero');
-    if(!dev || reduce) return;
-    function tick(){
-      var y = window.scrollY || window.pageYOffset || 0;
-      var p = Math.max(0, Math.min(1, y/560));
-      dev.style.transform = 'perspective(1600px) rotateX(' + (p*7).toFixed(2) + 'deg) rotateY(' + ((p-0.5)*9).toFixed(2) + 'deg) translateY(' + (p*-24).toFixed(1) + 'px) scale(' + (1-p*0.05).toFixed(3) + ')';
-      if(glow) glow.style.transform = 'translateX(' + (p*70).toFixed(0) + 'px)';
+    var fc   = document.querySelector('[data-hero] .float-card');
+    if(glow){ window.addEventListener('scroll', function(){ window.requestAnimationFrame(function(){
+      var p = Math.max(0, Math.min(1, (window.scrollY||0)/560)); glow.style.transform = 'translateX(' + (p*80).toFixed(0) + 'px)'; }); }, {passive:true}); }
+    if(hero && dev){
+      hero.addEventListener('pointermove', function(e){
+        var r = hero.getBoundingClientRect();
+        var px = (e.clientX - r.left)/r.width - 0.5, py = (e.clientY - r.top)/r.height - 0.5;
+        dev.style.transform = 'perspective(1400px) rotateY(' + (px*9).toFixed(2) + 'deg) rotateX(' + (-py*7).toFixed(2) + 'deg)';
+        if(fc) fc.style.transform = 'translate3d(' + (px*-30).toFixed(0) + 'px,' + (py*-20).toFixed(0) + 'px,60px)';
+      });
+      hero.addEventListener('pointerleave', function(){
+        dev.style.transform = 'perspective(1400px) rotateY(0deg) rotateX(0deg)';
+        if(fc) fc.style.transform = '';
+      });
     }
-    window.addEventListener('scroll', function(){ window.requestAnimationFrame(tick); }, {passive:true});
-    tick();
   }
   if(document.readyState !== 'loading') init(); else document.addEventListener('DOMContentLoaded', init);
 })();
