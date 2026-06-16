@@ -255,6 +255,11 @@ section{position:relative;}
 .logo{display:block;flex:none;filter:drop-shadow(0 4px 12px rgba(249,75,30,.35));}
 .brand{gap:11px;}
 .hero .device{transition:transform .12s ease-out;will-change:transform;}
+.hero .eyebrow{animation:fadeUp .6s ease both;}
+.hero h1{animation:fadeUp .6s ease both;animation-delay:.07s;}
+.hero .lead{animation:fadeUp .6s ease both;animation-delay:.15s;}
+.hero .hero-cta{animation:fadeUp .6s ease both;animation-delay:.23s;}
+.hero .hero-note{animation:fadeUp .6s ease both;animation-delay:.3s;}
 @keyframes dxSweep{0%,8%{left:18%}45%{left:60%}55%{left:60%}92%,100%{left:18%}}
 @keyframes dxProg{0%,8%{width:18%}45%{width:60%}55%{width:60%}92%,100%{width:18%}}
 @keyframes dxPin{0%,38%{opacity:0;transform:scale(.3)}46%{opacity:1;transform:scale(1.18)}52%{transform:scale(1)}86%{opacity:1}95%,100%{opacity:0;transform:scale(.3)}}

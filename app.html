@@ -631,7 +631,7 @@ async function renderStage(a,v){
     const cp=document.createElement('button'); cp.className='center-play'; cp.innerHTML=I.play; stage.appendChild(cp); cp.onclick=()=>vid.play();
     vid.addEventListener('loadedmetadata',()=>{v.duration=vid.duration;$('#timeline').setAttribute('aria-valuemax',Math.floor(vid.duration));renderMarkers(v);jump();sizeCanvas();});
     vid.addEventListener('timeupdate',()=>{const p=vid.duration?vid.currentTime/vid.duration*100:0;$('#timeProgress').style.width=p+'%';$('#playhead').style.left=p+'%';$('#timecode').textContent=smpte(vid.currentTime); renderOverlays(v);});
-    vid.addEventListener('play',()=>{$('#playBtn').innerHTML=I.pause;stage.classList.add('playing');}); vid.addEventListener('pause',()=>{$('#playBtn').innerHTML=I.play;stage.classList.remove('playing');});
+    vid.addEventListener('play',()=>{$('#playBtn').innerHTML=I.pause;stage.classList.add('playing');cur.selectedId=null;}); vid.addEventListener('pause',()=>{$('#playBtn').innerHTML=I.play;stage.classList.remove('playing');});
     vid.addEventListener('click',()=>{ if(cur.drawMode||cur.pinMode)return; vid.paused?vid.play():vid.pause(); });
     $('#playBtn').onclick=()=>vid.paused?vid.play():vid.pause();
     $('#frameBack').onclick=()=>{vid.pause();vid.currentTime=Math.max(0,vid.currentTime-1/30);};
@@ -693,7 +693,6 @@ function renderMarkers(v){ const w=$('#markers'); if(!v.duration){w.innerHTML=''
   $all('.marker',w).forEach(m=>m.onclick=ev=>{ev.stopPropagation();const c=v.comments.find(x=>x.id===m.dataset.c);if(c&&cur.mediaEl){cur.mediaEl.currentTime=c.t;}selectNote(c.id);});
 }
 function frameActive(c){
-  if(c.id===cur.selectedId) return true;
   const m=cur.mediaEl; if(!(m&&m.tagName==='VIDEO')) return false;
   const t=m.currentTime;
   if(c.inOut) return t>=c.inOut.a-0.05 && t<=c.inOut.b+0.05;
@@ -786,8 +785,8 @@ function wireComposer(a,v){ const ta=$('#commentInput'),post=$('#postBtn'),menu=
   ta.onkeydown=e=>{ if(!menu.hidden){if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();moveM(menu,e.key==='ArrowDown'?1:-1);return;}if(e.key==='Enter'){e.preventDefault();pickM(ta,menu);return;}if(e.key==='Escape'){menu.hidden=true;return;}}
     if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){e.preventDefault();doPost(a,v);} };
   post.onclick=()=>doPost(a,v);
-  $('#drawToggle').onclick=()=>{setDrawMode(!cur.drawMode);if(cur.drawMode&&v.kind==='video'&&cur.mediaEl&&!cur.pendingPin){cur.pendingPin={kind:'time',t:cur.mediaEl.currentTime};pinChip();}};
-  $('#pinToggle').onclick=()=>{ if(!hasMedia(v)){toast('Upload media first.');return;} setPinMode(!cur.pinMode); if(cur.pinMode)toast(v.kind==='video'?'Click the frame to drop a pin.':'Click the image to drop a pin.'); };
+  $('#drawToggle').onclick=()=>{setDrawMode(!cur.drawMode);if(cur.drawMode&&v.kind==='video'&&cur.mediaEl){cur.mediaEl.pause();if(!cur.pendingPin){cur.pendingPin={kind:'time',t:cur.mediaEl.currentTime};pinChip();}}};
+  $('#pinToggle').onclick=()=>{ if(!hasMedia(v)){toast('Upload media first.');return;} setPinMode(!cur.pinMode); if(cur.pinMode){ if(v.kind==='video'&&cur.mediaEl)cur.mediaEl.pause(); toast(v.kind==='video'?'Paused. Click the frame to drop a pin.':'Click the image to drop a pin.'); } };
   $('#rangeToggle').onclick=()=>{ if(v.kind!=='video'||!cur.mediaEl){toast('Range is for video — it keeps a note on screen across a whole section.');return;}
     if(cur.rangeAnchor==null){cur.rangeAnchor=cur.mediaEl.currentTime;cur.pendingPin=null;$('#rangeToggle').classList.add('on');pinChip();toast('Range start set at '+mmss(cur.rangeAnchor)+'. Now move to the end and click Range again.');}
     else{const b=cur.mediaEl.currentTime;cur.pendingPin={kind:'range',a:Math.min(cur.rangeAnchor,b),b:Math.max(cur.rangeAnchor,b)};cur.rangeAnchor=null;$('#rangeToggle').classList.remove('on');pinChip();toast('Range '+mmss(cur.pendingPin.a)+'–'+mmss(cur.pendingPin.b)+' — your note shows across this whole section.');} };
@@ -796,7 +795,7 @@ function doPost(a,v){ const ta=$('#commentInput'),body=ta.value.trim(); if(!body
   const c=cmt(me(),body,{ t:p?(p.kind==='time'?p.t:p.kind==='range'?p.a:p.kind==='point'?(p.t??null):null):null, inOut:p&&p.kind==='range'?{a:p.a,b:p.b}:null,
     point:p&&p.kind==='point'?{x:p.x,y:p.y}:null, drawing:cur.pendingDrawing&&cur.pendingDrawing.length?cur.pendingDrawing:null });
   c.mentions=parseM(body); v.comments.push(c);
-  ta.value='';$('#postBtn').disabled=true;cur.pendingPin=null;cur.pendingDrawing=null;setDrawMode(false);pinChip();
+  ta.value='';$('#postBtn').disabled=true;cur.pendingPin=null;cur.pendingDrawing=null;cur.selectedId=c.id;setDrawMode(false);pinChip();
   if(cur.filter==='resolved')cur.filter='open';
   save();renderThread(a,v);renderLibrarySilently();
   const node=$(`.note[data-c="${c.id}"]`);if(node)node.scrollIntoView({block:'center'});
