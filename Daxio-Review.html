@@ -95,7 +95,7 @@ button{font-family:inherit;}
 .brand{display:flex;align-items:center;gap:var(--s2);font-weight:700;letter-spacing:-.2px;}
 .brand-mark{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,var(--accent-2),var(--accent));position:relative;box-shadow:0 4px 14px rgba(249,75,30,.5);}
 .brand-mark::after{content:"";position:absolute;left:9px;top:8px;width:0;height:0;border-left:9px solid #fff;border-top:6px solid transparent;border-bottom:6px solid transparent;}
-.crumb{color:var(--ink-2);font-size:14px;font-weight:500;padding-left:var(--s3);border-left:1px solid var(--line);}
+.crumb{color:var(--ink-2);font-size:14px;font-weight:500;padding-left:var(--s3);border-left:1px solid var(--line);max-width:38vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .review-actions{display:flex;align-items:center;gap:var(--s2);}
 .presence{display:flex;align-items:center;}
 .presence .avatar{margin-left:-7px;box-shadow:0 0 0 2px var(--bg-2);}
@@ -137,7 +137,7 @@ button{font-family:inherit;}
 .lib-card:hover .lc-play{transform:translate(-50%,-50%) scale(1.1);background:var(--accent);border-color:transparent;}
 .lc-play svg{width:18px;height:18px;}
 .lc-body{padding:var(--s3) var(--s4) var(--s4);}
-.lc-title{font-weight:600;margin-bottom:6px;}
+.lc-title{font-weight:600;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .lc-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
 .lc-open{margin-left:auto;color:var(--warn);font-weight:600;} .lc-open.zero{color:var(--ok);}
 
@@ -640,7 +640,7 @@ async function openReview(id,deep){ const a=asset(id); if(!a){location.hash='';r
   $('#reviewActions').hidden=false; $('#presence').hidden=false; $('#crumb').textContent=a.title;
   const v=(deep.v&&a.versions.find(x=>x.id===deep.v))||activeVer(a); a.activeVersionId=v.id;
   if(cur&&cur.mediaURL){try{URL.revokeObjectURL(cur.mediaURL);}catch(e){}}
-  cur={assetId:id,versionId:v.id,mediaEl:null,mediaURL:null,pendingPin:null,pendingDrawing:null,drawMode:false,pinMode:false,rangeAnchor:null,compare:false,activeDrawing:null,selectedId:null,showDrawings:[],canvas:null,ctx:null,pendingT:deep.t??null,pendingC:deep.c||null,speed:1,zoom:1};
+  cur={assetId:id,versionId:v.id,mediaEl:null,mediaURL:null,compareURL:null,pendingPin:null,pendingDrawing:null,drawMode:false,pinMode:false,rangeAnchor:null,compare:false,activeDrawing:null,selectedId:null,showDrawings:[],canvas:null,ctx:null,pendingT:deep.t??null,pendingC:deep.c||null,speed:1,zoom:1,filter:(cur&&cur.filter)||'open'};
   renderStatus(a); renderPresence(); renderVersions(a); renderFilters(a,v);
   await renderStage(a,v); renderThread(a,v); wireComposer(a,v); wireActions(a);
   $('#exportBtn').onclick=()=>exportFeedback(a);
@@ -659,10 +659,13 @@ async function mediaURL(v){ if(v.dataURL)return v.dataURL; if(v.blobKey){const b
 
 async function renderStage(a,v){
   const stage=$('#stage'); stage.className='stage'; stage.innerHTML=''; cur.mediaEl=null; cur.canvas=null;
+  // revoke any blob URLs from the previous render (renderStage can run outside openReview, e.g. compare toggle)
+  if(cur.mediaURL){try{URL.revokeObjectURL(cur.mediaURL);}catch(e){}cur.mediaURL=null;}
+  if(cur.compareURL){try{URL.revokeObjectURL(cur.compareURL);}catch(e){}cur.compareURL=null;}
   // compare cell
   const cell2=$('#stage2Cell');
-  if(cur.compare&&a.versions.length>=2){ const prev=a.versions[a.versions.indexOf(v)-1]||a.versions[0]; const pv=prev===v?a.versions[0]:prev;
-    cell2.hidden=false; $('#stage2Label').textContent=pv.label+' (compare)'; const s2=$('#stage2'); s2.innerHTML=''; const u2=await mediaURL(pv);
+  if(cur.compare&&a.versions.length>=2){ const idx=a.versions.indexOf(v); const pv=a.versions[idx-1]||a.versions[idx+1]||a.versions[0];
+    cell2.hidden=false; $('#stage2Label').textContent=pv.label+' (compare)'; const s2=$('#stage2'); s2.innerHTML=''; const u2=await mediaURL(pv); cur.compareURL=(u2&&u2.startsWith('blob:'))?u2:null;
     s2.innerHTML = u2 ? (pv.kind==='video'?`<video src="${u2}" controls></video>`:`<img alt="" src="${u2}">`) : `<div class="stage-empty">No media</div>`;
   } else cell2.hidden=true;
 
@@ -682,15 +685,16 @@ async function renderStage(a,v){
     stage.classList.add('has-video');
     const cp=document.createElement('button'); cp.className='center-play'; cp.innerHTML=I.play; stage.appendChild(cp); cp.onclick=()=>vid.play();
     vid.addEventListener('loadedmetadata',()=>{v.duration=vid.duration;$('#timeline').setAttribute('aria-valuemax',Math.floor(vid.duration));$('#timecode').textContent=mmss(0)+' / '+mmss(vid.duration);renderMarkers(v);jump();sizeCanvas();applyZoom();});
-    vid.addEventListener('timeupdate',()=>{const p=vid.duration?vid.currentTime/vid.duration*100:0;$('#timeProgress').style.width=p+'%';$('#playhead').style.left=p+'%';$('#timecode').textContent=mmss(vid.currentTime)+' / '+mmss(vid.duration||0); renderOverlays(v); if(!scrub)scrollToPlayhead();});
+    vid.addEventListener('timeupdate',()=>{const p=vid.duration?vid.currentTime/vid.duration*100:0;$('#timeProgress').style.width=p+'%';$('#playhead').style.left=p+'%';$('#timecode').textContent=mmss(vid.currentTime)+' / '+mmss(vid.duration||0);$('#timeline').setAttribute('aria-valuenow',Math.floor(vid.currentTime));$('#timeline').setAttribute('aria-valuetext',mmss(vid.currentTime)); renderOverlays(v); if(!scrub)scrollToPlayhead();});
     vid.addEventListener('play',()=>{$('#playBtn').innerHTML=I.pause;stage.classList.add('playing');cur.selectedId=null;}); vid.addEventListener('pause',()=>{$('#playBtn').innerHTML=I.play;stage.classList.remove('playing');});
     vid.addEventListener('click',()=>{ if(cur.drawMode||cur.pinMode)return; vid.paused?vid.play():vid.pause(); });
     $('#playBtn').onclick=function(){vid.paused?vid.play():vid.pause();this.blur();};
     $('#frameBack').onclick=()=>{vid.pause();vid.currentTime=Math.max(0,vid.currentTime-1/30);};
     $('#frameFwd').onclick=()=>{vid.pause();vid.currentTime=Math.min(vid.duration||1e9,vid.currentTime+1/30);};
     $('#loopBtn').onclick=()=>{vid.loop=!vid.loop;$('#loopBtn').classList.toggle('active',vid.loop);};
-    $('#speedBtn').onclick=()=>{const arr=[1,1.5,2,0.5];cur.speed=arr[(arr.indexOf(cur.speed)+1)%arr.length];vid.playbackRate=cur.speed;$('#speedBtn').textContent=cur.speed+'×';};
-    $('#fsBtn').onclick=()=>{(stage.requestFullscreen?stage.requestFullscreen():null);};
+    $('#speedBtn').onclick=()=>{const arr=[0.5,1,1.5,2];const i=arr.indexOf(cur.speed);cur.speed=arr[(i<0?1:i)+1>=arr.length?0:(i<0?1:i)+1];vid.playbackRate=cur.speed;$('#speedBtn').textContent=cur.speed+'×';};
+    $('#fsBtn').onclick=()=>{ if(document.fullscreenElement){(document.exitFullscreen?document.exitFullscreen():null);} else {(stage.requestFullscreen?stage.requestFullscreen():null);} };
+    stage.onfullscreenchange=()=>{$('#fsBtn').classList.toggle('active',!!document.fullscreenElement);setTimeout(sizeCanvas,60);};
     const mute=$('#muteBtn'),volEl=$('#volume'); mute.innerHTML=I.vol; volEl.value=vid.volume;
     mute.onclick=()=>{vid.muted=!vid.muted;mute.innerHTML=vid.muted?I.mute:I.vol;mute.classList.toggle('active',vid.muted);};
     volEl.oninput=()=>{vid.volume=+volEl.value;vid.muted=+volEl.value===0;mute.innerHTML=vid.muted?I.mute:I.vol;};
@@ -709,9 +713,17 @@ async function renderStage(a,v){
     tl.onpointerup=function(){ scrub=false; };
     tl.onpointercancel=function(){ scrub=false; };
     tl.onpointerleave=function(){ th.hidden=true; };
+    // arrows/Home/End scrub; Space is left to the global handler (onKey) to avoid a double-toggle
+    tl.onkeydown=function(e){ if(!vid.duration)return; var step=(e.shiftKey?5:1),t=vid.currentTime;
+      if(e.key==='ArrowRight'||e.key==='ArrowUp')t=Math.min(vid.duration,t+step);
+      else if(e.key==='ArrowLeft'||e.key==='ArrowDown')t=Math.max(0,t-step);
+      else if(e.key==='Home')t=0; else if(e.key==='End')t=vid.duration;
+      else return;
+      e.preventDefault(); vid.pause(); vid.currentTime=t; };
   } else {
     $('#controls').hidden=true; stage.classList.add('is-canvas');
     stage.innerHTML=`<img id="media" alt="${esc(a.title)}" src="${url}">`; cur.mediaEl=$('#media',stage); addCanvas(stage);
+    cur.mediaEl.addEventListener('load',sizeCanvas);
     stage.onclick=e=>{ if(cur.drawMode||cur.pinMode||e.target.id!=='media')return; const r=e.target.getBoundingClientRect();
       cur.pendingPin={kind:'point',x:Math.round((e.clientX-r.left)/r.width*100),y:Math.round((e.clientY-r.top)/r.height*100)};
       renderPins(v); pinChip(); openInline(cur.pendingPin.x,cur.pendingPin.y,a,v); };
@@ -725,10 +737,12 @@ function addCanvas(stage){ const c=document.createElement('canvas'); c.className
   let drawing=false,stroke=null;
   c.addEventListener('pointerdown',e=>{
     if(cur.pinMode){ dropPin(e); return; }
-    if(!cur.drawMode)return; drawing=true; stroke=[]; (cur.pendingDrawing=cur.pendingDrawing||[]).push(stroke); addPt(e,stroke); paint();
+    if(!cur.drawMode)return; drawing=true; stroke=[]; try{c.setPointerCapture(e.pointerId);}catch(_){} (cur.pendingDrawing=cur.pendingDrawing||[]).push(stroke); addPt(e,stroke); paint();
   });
   c.addEventListener('pointermove',e=>{ if(!drawing)return; addPt(e,stroke); paint(); });
-  window.addEventListener('pointerup',()=>{drawing=false;});
+  // pointerup/cancel bound to the canvas (not window) so listeners die with this canvas on re-render — no leak.
+  c.addEventListener('pointerup',()=>{drawing=false;});
+  c.addEventListener('pointercancel',()=>{drawing=false;});
   function addPt(e,st){ const r=c.getBoundingClientRect(); st.push({x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height}); }
   function dropPin(e){ const m=cur.mediaEl, r=(m||c).getBoundingClientRect();
     let x=(e.clientX-r.left)/r.width*100, y=(e.clientY-r.top)/r.height*100; x=Math.max(0,Math.min(100,x)); y=Math.max(0,Math.min(100,y));
@@ -749,7 +763,12 @@ function openInline(x,y,a,v){ closeInline(); const st=$('#stage'); if(!st)return
   box.querySelector('.ic-cancel').onclick=cancel;
   ta.onkeydown=function(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();post();} else if(e.key==='Escape'){e.preventDefault();cancel();} };
 }
-function sizeCanvas(){ const c=cur.canvas; if(!c)return; c.width=c.clientWidth; c.height=c.clientHeight; paint(); }
+function sizeCanvas(){ const c=cur.canvas; if(!c)return; const m=cur.mediaEl, st=$('#stage');
+  // Overlay the canvas exactly on the (letterboxed) media box so strokes align with pins.
+  if(m&&st&&m.getBoundingClientRect){ const mr=m.getBoundingClientRect(), sr=st.getBoundingClientRect();
+    if(mr.width>1&&mr.height>1){ c.style.inset='auto'; c.style.left=(mr.left-sr.left)+'px'; c.style.top=(mr.top-sr.top)+'px';
+      c.style.width=mr.width+'px'; c.style.height=mr.height+'px'; c.width=Math.round(mr.width); c.height=Math.round(mr.height); paint(); return; } }
+  c.width=c.clientWidth; c.height=c.clientHeight; paint(); }
 function paint(){ const c=cur.canvas; if(!c)return; const g=cur.ctx; g.clearRect(0,0,c.width,c.height);
   g.lineWidth=3; g.lineCap='round'; g.lineJoin='round';
   g.strokeStyle=(getComputedStyle(document.documentElement).getPropertyValue('--accent')||'#F94B1E').trim();
@@ -762,7 +781,7 @@ function setDrawMode(on){ cur.drawMode=on; if(on)cur.pinMode=false; if(!on)cur.p
 function setPinMode(on){ cur.pinMode=on; if(on){cur.drawMode=false;cur.pendingDrawing=null;} updateTool(); paint(); }
 
 function renderMarkers(v){ const w=$('#markers'); if(!v.duration){w.innerHTML='';return;}
-  const vis=c=>visible(c)&&(cur.filter==='resolved'?c.resolved:(cur.filter==='all'?true:!c.resolved));
+  const vis=c=>visible(c);   // match the thread's filter exactly (incl. "Mine")
   let html='';
   v.comments.filter(c=>c.inOut&&vis(c)).forEach(c=>{ const a=Math.max(0,c.inOut.a/v.duration*100), b=Math.min(100,c.inOut.b/v.duration*100); html+=`<span class="range ${c.resolved?'resolved':''}" style="left:${a}%;width:${Math.max(1.5,b-a)}%"></span>`; });
   html+=v.comments.filter(c=>c.t!=null&&vis(c)).map(c=>{ const left=Math.min(100,Math.max(0,c.t/v.duration*100)); return `<span class="marker ${c.resolved?'resolved':''}" data-c="${c.id}" style="left:${left}%"><span class="tip">${esc(c.author)}: ${esc(c.body.slice(0,36))}</span></span>`; }).join('');
@@ -796,7 +815,7 @@ function renderFilters(a,v){
   cur.filter=cur.filter||'open';
   const all=v.comments.length, op=open(v), res=all-op, mine=v.comments.filter(c=>c.author===me()||(c.mentions||[]).includes(me())).length;
   const tabs=[['open','Open',op],['all','All',all],['resolved','Resolved',res],['mine','Mine',mine]];
-  $('#filters').innerHTML=tabs.map(([k,l,n])=>`<button class="filter ${cur.filter===k?'active':''}" data-f="${k}">${l}<span class="cnt">${n}</span></button>`).join('');
+  $('#filters').innerHTML=tabs.map(([k,l,n])=>`<button class="filter ${cur.filter===k?'active':''}" role="tab" aria-selected="${cur.filter===k}" data-f="${k}">${l}<span class="cnt">${n}</span></button>`).join('');
   $all('#filters .filter').forEach(b=>b.onclick=()=>{cur.filter=b.dataset.f;renderThread(a,activeVer(a));});
 }
 
@@ -876,8 +895,12 @@ function wireComposer(a,v){ const ta=$('#commentInput'),post=$('#postBtn'),menu=
     else{const b=cur.mediaEl.currentTime;cur.pendingPin={kind:'range',a:Math.min(cur.rangeAnchor,b),b:Math.max(cur.rangeAnchor,b)};cur.rangeAnchor=null;$('#rangeToggle').classList.remove('on');pinChip();toast('Range '+mmss(cur.pendingPin.a)+'–'+mmss(cur.pendingPin.b)+' — your note shows across this whole section.');} };
 }
 function doPost(a,v){ const ta=$('#commentInput'),body=ta.value.trim(); if(!body)return; const p=cur.pendingPin;
-  const c=cmt(me(),body,{ t:p?(p.kind==='time'?p.t:p.kind==='range'?p.a:p.kind==='point'?(p.t??null):null):null, inOut:p&&p.kind==='range'?{a:p.a,b:p.b}:null,
-    point:p&&p.kind==='point'?{x:p.x,y:p.y}:null, drawing:cur.pendingDrawing&&cur.pendingDrawing.length?cur.pendingDrawing:null });
+  let t=p?(p.kind==='time'?p.t:p.kind==='range'?p.a:p.kind==='point'?(p.t??null):null):null;
+  const inOut=p&&p.kind==='range'?{a:p.a,b:p.b}:null;
+  const drawing=cur.pendingDrawing&&cur.pendingDrawing.length?cur.pendingDrawing:null;
+  // a drawing on video with no anchor would never reappear on the stage — pin it to the current frame
+  if(drawing&&t==null&&!inOut&&v.kind==='video'&&cur.mediaEl)t=cur.mediaEl.currentTime;
+  const c=cmt(me(),body,{ t:t, inOut:inOut, point:p&&p.kind==='point'?{x:p.x,y:p.y}:null, drawing:drawing });
   c.mentions=parseM(body); v.comments.push(c);
   ta.value='';$('#postBtn').disabled=true;cur.pendingPin=null;cur.pendingDrawing=null;cur.selectedId=c.id;setDrawMode(false);pinChip();closeInline();
   if(cur.filter==='resolved')cur.filter='open';
