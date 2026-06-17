@@ -482,7 +482,7 @@ const I = {
   mute:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>',
 };
 
-const TEAM = ['You','Ridhii','Manohar','Suraj','Deepika','Vidhi'];
+const TEAM = ['You','Maya','Sam','Jordan','Priya','Leo'];
 const EMOJIS = ['👍','❤️','✅','👀','🎉'];
 const AVC = ['#F94B1E','#16A34A','#0EA5E9','#D97706','#DB2777','#7C3AED'];
 function av(name,cls){ name=name||'?'; let h=0; for(const c of name) h=(h*31+c.charCodeAt(0))>>>0; const col=AVC[h%AVC.length];
@@ -523,28 +523,34 @@ function ver(label,kind){ return {id:uid('v'),label,kind:kind||null,dataURL:null
 function cmt(author,body,o){ o=o||{}; return {id:uid('c'),author,body,t:o.t??null,inOut:o.inOut||null,point:o.point||null,drawing:o.drawing||null,reactions:o.reactions||{},resolved:!!o.resolved,mentions:o.mentions||[],replies:o.replies||[],createdAt:Date.now()-(o.ago||0)}; }
 
 function seed(){
-  const a1v = ver('V1','video');
-  a1v.comments = [
-    cmt('Ridhii','Wordmark looks stretched — keep the aspect ratio here.',{t:2,ago:9e6,reactions:{'👍':['Manohar']}}),
-    cmt('Manohar','Logo colour should be the navy, not black. @Ridhii does this match the deck?',{t:4,mentions:['Ridhii'],ago:6e6,replies:[{id:uid('r'),author:'Ridhii',body:'Yes, navy please.',createdAt:Date.now()-3e6}]}),
+  const a1=ver('V1','video');
+  a1.comments=[
+    cmt('Maya','Trim the intro ~2s — we reach the product too slowly.',{t:2,ago:8e6,reactions:{'👍':['Sam']}}),
+    cmt('Sam','Hold the logo a beat longer at the end. @Maya good for you?',{t:6,mentions:['Maya'],ago:5e6,replies:[{id:uid('r'),author:'Maya',body:'Yes — give it +1 second.',createdAt:Date.now()-3e6}]}),
   ];
-  const a2v = ver('V1','image'); a2v.dataURL=gimg('#b8451f','#7a1d10','Diwali Hero');
-  a2v.comments=[ cmt('Deepika','Discount badge is hard to read — add a dark plate behind it.',{point:{x:66,y:38},ago:2e6}),
-    cmt('Suraj','Cropping the diya in a touch — see sketch.',{point:{x:30,y:60},ago:1e6,drawing:[[{x:.18,y:.5},{x:.3,y:.4},{x:.42,y:.55},{x:.5,y:.45}]]}) ];
-  const a3v = ver('V1','image'); a3v.dataURL=gimg('#0C3A6B','#0a2547','Logo Lockup');
-  a3v.comments=[ cmt('Deepika','Clean. Approved.',{resolved:true,ago:2e7,reactions:{'✅':['Suraj','Vidhi']}}) ];
+  const a2=ver('V1','image'); a2.dataURL=gimg('#1f6f8b','#0c2c3a','Hero Banner');
+  a2.comments=[
+    cmt('Jordan','Headline is hard to read on the photo — add a subtle dark gradient behind it.',{point:{x:60,y:30},ago:2e6}),
+    cmt('Sam','Nudge the CTA button up so it sits above the fold — see sketch.',{point:{x:34,y:64},ago:1e6,drawing:[[{x:.22,y:.58},{x:.34,y:.46},{x:.47,y:.6}]]}),
+  ];
+  const a3=ver('V1','video');
+  a3.comments=[ cmt('Priya','VO dips around here — bring the voice up ~3 dB.',{t:3,ago:9e6}) ];
+  const a4=ver('V1','image'); a4.dataURL=gimg('#2e7d51','#123a28','Thumbnail B');
+  a4.comments=[ cmt('Maya','This version pops more. Approved!',{resolved:true,ago:2e7,reactions:{'✅':['Sam','Jordan']}}) ];
 
   state.assets=[
-    {id:uid('a'),title:'Brand Film',status:'In review',versions:[a1v],activeVersionId:a1v.id,createdAt:Date.now()},
-    {id:uid('a'),title:'Diwali Hero',status:'Changes requested',versions:[a2v],activeVersionId:a2v.id,createdAt:Date.now()-1e6},
-    {id:uid('a'),title:'Logo Lockup',status:'Approved',versions:[a3v],activeVersionId:a3v.id,createdAt:Date.now()-2e6},
+    {id:uid('a'),title:'Summer Launch — 30s Ad',status:'In review',versions:[a1],activeVersionId:a1.id,createdAt:Date.now()},
+    {id:uid('a'),title:'Homepage Hero Banner',status:'Changes requested',versions:[a2],activeVersionId:a2.id,createdAt:Date.now()-1e6},
+    {id:uid('a'),title:'Podcast Ep. 12 — Highlight',status:'In review',versions:[a3],activeVersionId:a3.id,createdAt:Date.now()-15e5},
+    {id:uid('a'),title:'YouTube Thumbnail A/B',status:'Approved',versions:[a4],activeVersionId:a4.id,createdAt:Date.now()-2e6},
   ];
+  state.seedVersion=2;
   save();
 }
 
 /* ---------- boot / route ---------- */
 let cur=null;
-(async function(){ await openDB(); if(!load()||!state.assets||!state.assets.length) seed();
+(async function(){ await openDB(); if(!load()||!state.assets||!state.assets.length||state.seedVersion!==2) seed();
   if(!TEAM.includes(state.currentUser)) state.currentUser='You';
   wire(); renderUser(); route(); window.addEventListener('hashchange',route); })();
 
@@ -655,7 +661,7 @@ async function renderStage(a,v){
     vid.addEventListener('timeupdate',()=>{const p=vid.duration?vid.currentTime/vid.duration*100:0;$('#timeProgress').style.width=p+'%';$('#playhead').style.left=p+'%';$('#timecode').textContent=smpte(vid.currentTime); renderOverlays(v);});
     vid.addEventListener('play',()=>{$('#playBtn').innerHTML=I.pause;stage.classList.add('playing');cur.selectedId=null;}); vid.addEventListener('pause',()=>{$('#playBtn').innerHTML=I.play;stage.classList.remove('playing');});
     vid.addEventListener('click',()=>{ if(cur.drawMode||cur.pinMode)return; vid.paused?vid.play():vid.pause(); });
-    $('#playBtn').onclick=()=>vid.paused?vid.play():vid.pause();
+    $('#playBtn').onclick=function(){vid.paused?vid.play():vid.pause();this.blur();};
     $('#frameBack').onclick=()=>{vid.pause();vid.currentTime=Math.max(0,vid.currentTime-1/30);};
     $('#frameFwd').onclick=()=>{vid.pause();vid.currentTime=Math.min(vid.duration||1e9,vid.currentTime+1/30);};
     $('#loopBtn').onclick=()=>{vid.loop=!vid.loop;$('#loopBtn').classList.toggle('active',vid.loop);};
@@ -665,9 +671,14 @@ async function renderStage(a,v){
     mute.onclick=()=>{vid.muted=!vid.muted;mute.innerHTML=vid.muted?I.mute:I.vol;mute.classList.toggle('active',vid.muted);};
     volEl.oninput=()=>{vid.volume=+volEl.value;vid.muted=+volEl.value===0;mute.innerHTML=vid.muted?I.mute:I.vol;};
     const tl=$('#timeline'),th=$('#timeHover');
-    tl.onclick=e=>{if(cur.drawMode||cur.pinMode)return;const r=e.currentTarget.getBoundingClientRect();const tt=(e.clientX-r.left)/r.width*(vid.duration||0);vid.currentTime=tt;cur.pendingPin={kind:'time',t:tt};pinChip();toast('Add a comment at '+mmss(tt)+' below.');};
-    tl.onmousemove=e=>{const r=tl.getBoundingClientRect();const f=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));th.hidden=false;th.style.left=(f*100)+'%';th.textContent=mmss(f*(vid.duration||0));};
-    tl.onmouseleave=()=>{th.hidden=true;};
+    var scrub=false;
+    function tlFrac(e){ var r=tl.getBoundingClientRect(); return Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)); }
+    tl.onclick=null;
+    tl.onpointerdown=function(e){ if(cur.drawMode||cur.pinMode)return; scrub=true; try{tl.setPointerCapture(e.pointerId);}catch(_){} vid.currentTime=tlFrac(e)*(vid.duration||0); };
+    tl.onpointermove=function(e){ var f=tlFrac(e); th.hidden=false; th.style.left=(f*100)+'%'; th.textContent=mmss(f*(vid.duration||0)); if(scrub)vid.currentTime=f*(vid.duration||0); };
+    tl.onpointerup=function(){ scrub=false; };
+    tl.onpointercancel=function(){ scrub=false; };
+    tl.onpointerleave=function(){ th.hidden=true; };
   } else {
     $('#controls').hidden=true; stage.classList.add('is-canvas');
     stage.innerHTML=`<img id="media" alt="${esc(a.title)}" src="${url}">`; cur.mediaEl=$('#media',stage); addCanvas(stage);
@@ -718,7 +729,7 @@ function updateTool(){ const active=cur.drawMode||cur.pinMode; const c=cur.canva
   const st=$('#stage'); if(st){st.classList.toggle('tool-active',active);}
   const d=$('#drawToggle'),p=$('#pinToggle'); if(d)d.classList.toggle('on',cur.drawMode); if(p)p.classList.toggle('on',cur.pinMode); }
 function setDrawMode(on){ cur.drawMode=on; if(on)cur.pinMode=false; if(!on)cur.pendingDrawing=null; updateTool(); paint(); }
-function setPinMode(on){ cur.pinMode=on; if(on)cur.drawMode=false; updateTool(); }
+function setPinMode(on){ cur.pinMode=on; if(on){cur.drawMode=false;cur.pendingDrawing=null;} updateTool(); paint(); }
 
 function renderMarkers(v){ const w=$('#markers'); if(!v.duration){w.innerHTML='';return;}
   const vis=c=>visible(c)&&(cur.filter==='resolved'?c.resolved:(cur.filter==='all'?true:!c.resolved));
@@ -952,7 +963,7 @@ function onKey(e){ if(!$('#modalRoot').hidden&&e.key==='Escape'){closeModal();re
   const typing=/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName);
   if(e.key==='Escape'){if(!$('#mentionMenu').hidden){$('#mentionMenu').hidden=true;return;}if(cur&&cur.drawMode){setDrawMode(false);return;}location.hash='';return;}
   if(typing)return; const vid=cur&&cur.mediaEl&&cur.mediaEl.tagName==='VIDEO'?cur.mediaEl:null; if(!vid)return;
-  if(e.key===' '){e.preventDefault();vid.paused?vid.play():vid.pause();} else if(e.key===','){vid.pause();vid.currentTime=Math.max(0,vid.currentTime-1/30);} else if(e.key==='.'){vid.pause();vid.currentTime+=1/30;} }
+  if(e.key===' '||e.code==='Space'){e.preventDefault();vid.paused?vid.play():vid.pause();} else if(e.key===','){vid.pause();vid.currentTime=Math.max(0,vid.currentTime-1/30);} else if(e.key==='.'){vid.pause();vid.currentTime+=1/30;} }
 function toast(m){ const h=$('#toastHost'),el=document.createElement('div');el.className='toast';el.innerHTML=I.check+'<span>'+esc(m)+'</span>';h.appendChild(el);setTimeout(()=>{el.style.opacity='0';setTimeout(()=>el.remove(),250);},2400); }
 window.addEventListener('resize',()=>{ if(cur&&cur.canvas)sizeCanvas(); });
 
