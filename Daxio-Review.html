@@ -81,6 +81,7 @@ button{font-family:inherit;}
 .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:var(--r-sm);
   background:transparent;border:1px solid transparent;color:var(--ink-2);cursor:pointer;transition:.16s var(--ease);}
 .icon-btn:hover{background:rgba(255,255,255,.06);color:var(--ink);}
+.icon-btn.active{color:var(--accent-2);background:var(--accent-soft);}
 .icon-btn:active{transform:scale(.93);}
 
 .avatar{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.4);}
@@ -141,8 +142,42 @@ button{font-family:inherit;}
 .lc-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
 .lc-open{margin-left:auto;color:var(--warn);font-weight:600;} .lc-open.zero{color:var(--ok);}
 
-.empty{text-align:center;padding:80px var(--s5);color:var(--muted);}
+.empty{text-align:center;padding:72px var(--s5);color:var(--muted);}
 .empty h3{color:var(--ink);font-size:18px;margin-bottom:8px;}
+.empty p{margin-bottom:18px;}
+.empty .empty-ic{width:46px;height:46px;margin:0 auto 16px;opacity:.5;}
+.empty .btn{display:inline-flex;}
+
+/* library toolbar */
+.lib-toolbar{display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4);flex-wrap:wrap;animation:fadeUp .35s var(--ease) both;animation-delay:.04s;}
+.lib-search{position:relative;flex:1;min-width:200px;max-width:340px;}
+.lib-search-ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted);pointer-events:none;display:flex;}
+.lib-search input{width:100%;height:38px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:var(--r-sm);padding:0 12px 0 36px;font-size:13px;font-family:inherit;outline:none;transition:.15s;}
+.lib-search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
+.lib-search input::placeholder{color:var(--muted);}
+.lib-chips{display:flex;gap:4px;flex-wrap:wrap;}
+.lib-chip{height:34px;padding:0 12px;border-radius:var(--r-pill);border:1px solid var(--line);background:var(--panel);color:var(--ink-2);font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.14s;}
+.lib-chip:hover{color:var(--ink);border-color:var(--line-2);}
+.lib-chip.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-2);}
+.lib-chip-cnt{font-size:10px;background:rgba(255,255,255,.08);border-radius:var(--r-pill);padding:1px 6px;min-width:18px;text-align:center;}
+.lib-chip.active .lib-chip-cnt{background:var(--accent);color:#fff;}
+.lib-tools-right{display:flex;align-items:center;gap:var(--s2);margin-left:auto;}
+.lib-select{position:relative;display:inline-flex;align-items:center;}
+.lib-select-ic{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted);pointer-events:none;display:flex;}
+.lib-select select{height:34px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:var(--r-sm);padding:0 30px 0 32px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238A8275' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;}
+.lib-select select:hover{border-color:var(--line-2);}
+.lib-select select:focus{border-color:var(--accent);}
+.lc-sep{opacity:.5;}
+.lib-grid.grouped{display:block;}
+.lib-group{margin-bottom:var(--s5);animation:fadeUp .35s var(--ease) both;}
+.lib-group-h{display:flex;align-items:center;gap:10px;margin-bottom:14px;font-weight:700;color:var(--ink);font-size:14px;}
+.lib-group-cnt{font-size:11px;color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-pill);padding:1px 9px;font-weight:600;}
+.lib-grid-inner{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:var(--s4);}
+.lc-badge.st-review{background:rgba(245,166,35,.92);color:#231a06;border-color:transparent;}
+.lc-badge.st-changes{background:rgba(249,75,30,.92);color:#fff;border-color:transparent;}
+.lc-badge.st-approved{background:rgba(45,212,167,.92);color:#062a20;border-color:transparent;}
+.lib-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 
 /* review */
 .review{max-width:1500px;}
@@ -384,6 +419,26 @@ button{font-family:inherit;}
   <div class="lib-head">
     <div><h1>Reviews</h1><p id="libSub" class="muted"></p></div>
   </div>
+  <div class="lib-toolbar">
+    <div class="lib-search">
+      <span class="lib-search-ic" id="libSearchIc" aria-hidden="true"></span>
+      <input id="libSearch" type="search" placeholder="Search reviews…" aria-label="Search reviews" autocomplete="off" />
+    </div>
+    <div id="libStatusFilter" class="lib-chips" role="tablist" aria-label="Filter by status"></div>
+    <div class="lib-tools-right">
+      <div class="lib-select">
+        <span class="lib-select-ic" id="libSortIc" aria-hidden="true"></span>
+        <select id="libSort" aria-label="Sort reviews">
+          <option value="recent">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="name">Name A–Z</option>
+          <option value="status">Status</option>
+          <option value="open">Most open</option>
+        </select>
+      </div>
+      <button id="libGroup" class="chip-btn" aria-pressed="false" title="Group by status"></button>
+    </div>
+  </div>
   <div id="libGrid" class="lib-grid"></div>
   <div id="libEmpty" class="empty" hidden></div>
 </main>
@@ -443,6 +498,7 @@ button{font-family:inherit;}
     <aside class="comments-col">
       <div class="comments-head">
         <div id="filters" class="filters" role="tablist"></div>
+        <button id="threadSort" class="icon-btn" aria-label="Sort comments" title="Sort comments"></button>
         <button id="exportBtn" class="icon-btn" aria-label="Export feedback" title="Export feedback"></button>
       </div>
       <div id="threadList" class="thread-list"></div>
@@ -504,6 +560,9 @@ const I = {
   up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>',
   vol:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg>',
   mute:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>',
+  sort:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3-3M7 4l3 3"/><path d="M17 20V4M17 4l3 3M17 20l-3-3"/></svg>',
+  grid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
 };
 
 const TEAM = ['You','Maya','Sam','Jordan','Priya','Leo'];
@@ -594,8 +653,20 @@ function wire(){
   $('#userBtn').onclick=(e)=>{e.stopPropagation(); const m=$('#userMenu'); m.hidden=!m.hidden; if(!m.hidden) renderUserMenu();};
   document.addEventListener('click',()=>{$('#userMenu').hidden=true;});
   $('#userMenu').onclick=e=>e.stopPropagation();
+  // library toolbar
+  const lv=libView();
+  $('#libSearchIc').innerHTML=I.search; $('#libSortIc').innerHTML=I.sort; $('#libGroup').innerHTML=I.grid+'<span>Group</span>';
+  $('#libSearch').value=lv.q||'';
+  $('#libSearch').oninput=function(){ libView().q=this.value; save(); renderLibrary(); };
+  $('#libSort').onchange=function(){ libView().sort=this.value; save(); renderLibrary(); };
+  $('#libGroup').onclick=function(){ const v=libView(); v.group=!v.group; save(); renderLibrary(); };
+  // thread sort (review view)
+  $('#threadSort').innerHTML=I.sort; $('#threadSort').title='Sort: by time';
+  $('#threadSort').onclick=function(){ if(!cur)return; const modes=['time','newest','oldest']; cur.tsort=modes[(modes.indexOf(cur.tsort||'time')+1)%modes.length];
+    this.title='Sort: '+tsortLabel(cur.tsort); this.classList.toggle('active',cur.tsort!=='time'); const a=asset(cur.assetId); renderThread(a,activeVer(a)); toast('Comments sorted: '+tsortLabel(cur.tsort)); };
   document.addEventListener('keydown',onKey);
 }
+function tsortLabel(s){ return s==='newest'?'newest first':s==='oldest'?'oldest first':'by time'; }
 function renderUser(){ $('#userBtn').innerHTML=av(me()); }
 function renderUserMenu(){ const m=$('#userMenu');
   m.innerHTML=`<div class="menu-head">Comment as (demo)</div>`+TEAM.map(n=>`<div class="menu-row ${n===me()?'active':''}" data-u="${esc(n)}">${av(n,'avatar-sm')}<span>${esc(n)}</span></div>`).join('');
@@ -605,24 +676,62 @@ function renderUserMenu(){ const m=$('#userMenu');
 function showLibrary(){ $('#reviewView').hidden=true; $('#libraryView').hidden=false; $('#backBtn').hidden=true; $('#crumb').textContent='';
   $('#reviewActions').hidden=true; $('#presence').hidden=true; $('#newBtn').hidden=false;
   if(cur&&cur.mediaURL){try{URL.revokeObjectURL(cur.mediaURL);}catch(e){}} cur=null; renderLibrary(); }
+const STATUS_ORDER={'In review':0,'Changes requested':1,'Approved':2};
+const STATUS_FULL=['In review','Changes requested','Approved'];
+function libView(){ return state.libView=state.libView||{q:'',status:'all',sort:'recent',group:false}; }
+function openCountA(a){ return open(activeVer(a)); }
+function sortAssets(list,key){
+  const so=STATUS_ORDER;
+  const by={ recent:(a,b)=>(b.createdAt||0)-(a.createdAt||0), oldest:(a,b)=>(a.createdAt||0)-(b.createdAt||0),
+    name:(a,b)=>a.title.localeCompare(b.title),
+    status:(a,b)=>((so[a.status]??9)-(so[b.status]??9))||((b.createdAt||0)-(a.createdAt||0)),
+    open:(a,b)=>(openCountA(b)-openCountA(a))||((b.createdAt||0)-(a.createdAt||0)) };
+  return list.slice().sort(by[key]||by.recent);
+}
+function libCard(a){ const v=activeVer(a)||{}, n=open(v); const isVid=a.versions.some(x=>x.kind==='video');
+  const media = hasMedia(v)?(v.dataURL?`<img alt="" src="${v.dataURL}">`:(v.thumb?`<img alt="" src="${v.thumb}">`:`<span class="ph">${isVid?I.video:I.image}</span>`))
+    :`<span class="ph">${v.kind==='video'?I.video:I.image}</span>`;
+  return `<div class="lib-card" data-id="${a.id}" tabindex="0" role="button" aria-label="${esc(a.title)}"><div class="lc-media">${media}
+    ${(v.kind==='video'&&hasMedia(v))?`<span class="lc-play">${I.play}</span>`:''}
+    <span class="lc-badge ${STATUS[a.status]||''}">${esc(a.status)}</span></div>
+    <div class="lc-body"><div class="lc-title">${esc(a.title)}</div>
+    <div class="lc-meta"><span>${a.versions.length} ${a.versions.length>1?'versions':'version'}</span><span class="lc-sep">·</span><span>${timeAgo(a.createdAt)}</span>
+    <span class="lc-open ${n?'':'zero'}">${n?n+' open':'all clear'}</span></div></div></div>`;
+}
+function wireCards(g){ $all('.lib-card[data-id]',g).forEach(c=>{ const go=()=>location.hash='#/a/'+encodeURIComponent(c.dataset.id);
+  c.onclick=go; c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}}; }); }
+function renderLibChips(counts){ const lv=libView(); const order=['all',...STATUS_FULL]; const label={all:'All','In review':'In review','Changes requested':'Changes','Approved':'Approved'};
+  $('#libStatusFilter').innerHTML=order.map(k=>`<button class="lib-chip ${lv.status===k?'active':''}" role="tab" aria-selected="${lv.status===k}" data-s="${esc(k)}">${label[k]}<span class="lib-chip-cnt">${counts[k]||0}</span></button>`).join('');
+  $all('#libStatusFilter .lib-chip').forEach(b=>b.onclick=()=>{libView().status=b.dataset.s;save();renderLibrary();}); }
 function renderLibrary(){
-  $('#libSub').textContent=`${state.assets.length} items · signed in as ${me()}`;
-  const g=$('#libGrid'), empty=$('#libEmpty');
+  const lv=libView(); const g=$('#libGrid'), empty=$('#libEmpty');
+  const counts={all:state.assets.length}; STATUS_FULL.forEach(s=>counts[s]=0); state.assets.forEach(a=>{counts[a.status]=(counts[a.status]||0)+1;});
+  renderLibChips(counts);
+  const sortSel=$('#libSort'); if(sortSel)sortSel.value=lv.sort;
+  const gb=$('#libGroup'); if(gb){gb.classList.toggle('active',lv.group);gb.setAttribute('aria-pressed',lv.group);}
+  // filter + sort
+  let list=state.assets.slice();
+  if(lv.status!=='all')list=list.filter(a=>a.status===lv.status);
+  const q=(lv.q||'').trim().toLowerCase(); if(q)list=list.filter(a=>a.title.toLowerCase().includes(q));
+  list=sortAssets(list,lv.sort);
+  const total=state.assets.length, shown=list.length, filtered=!!(q||lv.status!=='all');
+  $('#libSub').textContent=(filtered?`${shown} of ${total} ${total===1?'review':'reviews'}`:`${total} ${total===1?'review':'reviews'}`)+` · signed in as ${me()}`;
+  // empty
+  if(!shown){ g.hidden=true; empty.hidden=false;
+    empty.innerHTML=filtered?`<h3>No matching reviews</h3><p>Nothing matches your search or filter.</p><button class="btn btn-soft btn-sm" id="libClear">Clear filters</button>`
+      :`<div class="empty-ic">${I.up}</div><h3>No reviews yet</h3><p>Create your first review to start collecting feedback.</p><button class="btn btn-primary btn-sm" id="libNew2">${I.plus}New review</button>`;
+    const c1=$('#libClear'); if(c1)c1.onclick=()=>{lv.q='';lv.status='all';$('#libSearch').value='';save();renderLibrary();};
+    const c2=$('#libNew2'); if(c2)c2.onclick=newReview; return; }
   empty.hidden=true; g.hidden=false;
-  let html=`<div class="lib-card new" id="newCard">${I.up}<span>New review</span></div>`;
-  html+=state.assets.map(a=>{ const v=activeVer(a),n=open(v);
-    const media = hasMedia(v)?(v.dataURL?`<img alt="" src="${v.dataURL}">`:(v.thumb?`<img alt="" src="${v.thumb}">`:`<span class="ph">${a.versions.some(x=>x.kind==='video')?I.video:I.image}</span>`))
-      :`<span class="ph">${v&&v.kind==='video'?I.video:I.image}</span>`;
-    return `<div class="lib-card" data-id="${a.id}"><div class="lc-media">${media}
-      ${(v&&v.kind==='video'&&hasMedia(v))?`<span class="lc-play">${I.play}</span>`:''}
-      <span class="lc-badge">${esc(a.status)}</span></div>
-      <div class="lc-body"><div class="lc-title">${esc(a.title)}</div>
-      <div class="lc-meta"><span>${a.versions.length} ${a.versions.length>1?'versions':'version'}</span>
-      <span class="lc-open ${n?'':'zero'}">${n?n+' open':'0 open'}</span></div></div></div>`;
-  }).join('');
-  g.innerHTML=html;
-  $('#newCard').onclick=newReview;
-  $all('.lib-card[data-id]',g).forEach(c=>c.onclick=()=>{location.hash='#/a/'+encodeURIComponent(c.dataset.id);});
+  if(lv.group){ g.className='lib-grid grouped';
+    g.innerHTML=STATUS_FULL.map(st=>{ const items=list.filter(a=>a.status===st); if(!items.length)return '';
+      return `<section class="lib-group"><div class="lib-group-h"><span class="lc-badge ${STATUS[st]||''}" style="position:static">${esc(st)}</span><span class="lib-group-cnt">${items.length}</span></div><div class="lib-grid-inner">${items.map(libCard).join('')}</div></section>`; }).join('');
+  } else { g.className='lib-grid';
+    const showNew=!q&&lv.status==='all';
+    g.innerHTML=(showNew?`<div class="lib-card new" id="newCard">${I.up}<span>New review</span></div>`:'')+list.map(libCard).join('');
+    const nc=$('#newCard'); if(nc)nc.onclick=newReview;
+  }
+  wireCards(g);
 }
 function newReview(){
   const card=modal('New review',`<div class="field"><label>Title</label><input id="nrTitle" placeholder="e.g. Brand Film"></div>
@@ -640,12 +749,12 @@ async function openReview(id,deep){ const a=asset(id); if(!a){location.hash='';r
   $('#reviewActions').hidden=false; $('#presence').hidden=false; $('#crumb').textContent=a.title;
   const v=(deep.v&&a.versions.find(x=>x.id===deep.v))||activeVer(a); a.activeVersionId=v.id;
   if(cur&&cur.mediaURL){try{URL.revokeObjectURL(cur.mediaURL);}catch(e){}}
-  cur={assetId:id,versionId:v.id,mediaEl:null,mediaURL:null,compareURL:null,pendingPin:null,pendingDrawing:null,drawMode:false,pinMode:false,rangeAnchor:null,compare:false,activeDrawing:null,selectedId:null,showDrawings:[],canvas:null,ctx:null,pendingT:deep.t??null,pendingC:deep.c||null,speed:1,zoom:1,filter:(cur&&cur.filter)||'open'};
+  cur={assetId:id,versionId:v.id,mediaEl:null,mediaURL:null,compareURL:null,pendingPin:null,pendingDrawing:null,drawMode:false,pinMode:false,rangeAnchor:null,compare:false,activeDrawing:null,selectedId:null,showDrawings:[],canvas:null,ctx:null,pendingT:deep.t??null,pendingC:deep.c||null,speed:1,zoom:1,filter:(cur&&cur.filter)||'open',tsort:(cur&&cur.tsort)||'time'};
   renderStatus(a); renderPresence(); renderVersions(a); renderFilters(a,v);
   await renderStage(a,v); renderThread(a,v); wireComposer(a,v); wireActions(a);
   $('#exportBtn').onclick=()=>exportFeedback(a);
   $('#shareBtn').onclick=()=>shareModal(a,v);
-  $('#addVersionInput').onchange=e=>upload(e.target.files[0],a,'version');
+  $('#addVersionInput').onchange=e=>{upload(e.target.files[0],a,'version');e.target.value='';};
   $('#compareBtn').hidden=a.versions.length<2;
   $('#compareBtn').onclick=()=>{cur.compare=!cur.compare;$('#compareBtn').classList.toggle('active',cur.compare);renderStage(a,activeVer(a)).then(()=>{renderThread(a,activeVer(a));});};
 }
@@ -674,7 +783,7 @@ async function renderStage(a,v){
     stage.innerHTML=`<div class="stage-empty"><div class="up">${I.up}</div><div>Nothing to review yet</div>
       <div class="upload-row"><label class="btn btn-primary">${I.up}Upload image or video<input type="file" accept="image/*,video/*" hidden id="firstUp"></label>
       ${v.kind==='video'?`<button class="btn btn-ghost" id="sampleClip">Load sample clip</button>`:`<button class="btn btn-ghost" id="sampleImg">Sample image</button>`}</div></div>`;
-    $('#firstUp',stage).onchange=e=>upload(e.target.files[0],a,'first');
+    $('#firstUp',stage).onchange=e=>{upload(e.target.files[0],a,'first');e.target.value='';};
     if($('#sampleImg',stage))$('#sampleImg',stage).onclick=()=>{v.kind='image';v.dataURL=gimg('#1e6f4f','#0b3a28','Sample');save();openReview(a.id);};
     if($('#sampleClip',stage))$('#sampleClip',stage).onclick=()=>sampleClip(a,v);
     return; }
@@ -822,7 +931,10 @@ function renderFilters(a,v){
 /* ---------- thread ---------- */
 function renderThread(a,v){
   renderFilters(a,v);
-  const list=$('#threadList'); const items=v.comments.filter(visible).slice().sort((x,y)=>expTime(x)-expTime(y));
+  const list=$('#threadList'); const ts=(cur&&cur.tsort)||'time';
+  const sorters={time:(x,y)=>expTime(x)-expTime(y),newest:(x,y)=>(y.createdAt||0)-(x.createdAt||0),oldest:(x,y)=>(x.createdAt||0)-(y.createdAt||0)};
+  const items=v.comments.filter(visible).slice().sort(sorters[ts]||sorters.time);
+  const tsb=$('#threadSort'); if(tsb){tsb.classList.toggle('active',ts!=='time');tsb.title='Sort: '+tsortLabel(ts);}
   if(!items.length){ list.innerHTML=`<div class="thread-empty">${cur.filter==='open'?'No open comments — all caught up.':'No comments here yet.'}<br>${v.kind==='video'?'Move to a moment and type below':'Click the image, or just type'} to add one.</div>`; }
   else list.innerHTML=items.map(c=>noteHTML(v,c)).join('');
   $all('.note',list).forEach(n=>wireNote(n,a,v));
@@ -970,7 +1082,7 @@ function genCSV(a,v,fps){ var L=['Number,Timecode,Seconds,Author,Comment,Type,Re
   expSorted(v).forEach(function(c,i){ var type=c.inOut?'range':(c.t!=null?'time':(c.point?'spot':'general'));
     L.push([i+1,tc(expTime(c),fps),expTime(c).toFixed(2),csvCell(c.author),csvCell(c.body),type,c.resolved?'yes':'no'].join(',')); });
   return L.join('\n'); }
-function genEDL(a,v,fps){ var L=['TITLE: '+a.title.toUpperCase()+' — CUE FEEDBACK','FCM: NON-DROP FRAME','']; var n=0;
+function genEDL(a,v,fps){ var L=['TITLE: '+a.title.toUpperCase()+' — FEEDBACK','FCM: NON-DROP FRAME','']; var n=0;
   expSorted(v).forEach(function(c){ n++; var rin=tc(expTime(c),fps), rout=tc(expTime(c)+1/fps,fps); var txt=oneLine(c.author+': '+c.body);
     L.push(String(n).padStart(3,'0')+'  AX       V     C        00:00:00:00 00:00:00:01 '+rin+' '+rout);
     L.push('* '+txt);
