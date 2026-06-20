@@ -135,7 +135,7 @@ section{position:relative;}
 /* stats band */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;text-align:center;}
 .stats .n{font-family:var(--f-display);font-weight:800;font-size:clamp(38px,4.4vw,58px);letter-spacing:-0.04em;line-height:1;}
-.stats .l{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;margin-top:8px;color:rgba(23,19,13,0.78);}
+.stats .l{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;margin-top:8px;color:#17130D;}
 
 /* pills */
 .pills{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:40px;}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vikasbanjare.github.io/-DAXIO-/sitemap.xml

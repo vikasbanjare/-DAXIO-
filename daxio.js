@@ -12,18 +12,30 @@
   function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
   ready(function(){
     var tog = document.getElementById('themeToggle');
-    if(tog) tog.addEventListener('click', function(){ apply(root.getAttribute('data-theme')==='dark' ? 'light' : 'dark'); });
+    function syncTheme(){ if(!tog) return; var dark=root.getAttribute('data-theme')==='dark'; tog.setAttribute('aria-pressed', String(dark)); tog.setAttribute('aria-label', dark?'Switch to light theme':'Switch to dark theme'); }
+    syncTheme();
+    if(tog) tog.addEventListener('click', function(){ apply(root.getAttribute('data-theme')==='dark' ? 'light' : 'dark'); syncTheme(); });
 
     // ---- mobile nav ----
     var burger = document.getElementById('hamburger'), links = document.getElementById('navLinks');
-    if(burger && links) burger.addEventListener('click', function(){ links.classList.toggle('open'); });
+    if(burger && links){
+      function setNav(open){ links.classList.toggle('open', open); burger.setAttribute('aria-expanded', String(open)); }
+      burger.setAttribute('aria-controls','navLinks'); burger.setAttribute('aria-expanded','false');
+      burger.addEventListener('click', function(){ setNav(!links.classList.contains('open')); });
+      links.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ setNav(false); }); });
+      window.addEventListener('resize', function(){ if(window.innerWidth>720) setNav(false); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape') setNav(false); });
+    }
+
+    // placeholder footer links: don't scroll-jump to top when clicked
+    document.querySelectorAll('a[href="#"]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); }); });
 
     // ---- pricing billing toggle ----
     var billing = document.getElementById('billing');
     if(billing){
       var btns = billing.querySelectorAll('button');
       function setBilling(annual){
-        btns.forEach(function(b){ b.classList.toggle('on', (b.dataset.bill==='annual')===annual); });
+        btns.forEach(function(b){ var on=(b.dataset.bill==='annual')===annual; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
         document.querySelectorAll('[data-monthly]').forEach(function(el){ el.textContent = annual ? el.dataset.annual : el.dataset.monthly; });
         document.querySelectorAll('[data-billnote]').forEach(function(el){ el.textContent = annual ? 'billed annually' : 'billed monthly'; });
       }
