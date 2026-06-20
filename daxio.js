@@ -1,11 +1,11 @@
-/* Cue — theme toggle, mobile nav, pricing billing, panel tilt */
+/* Daxio — theme toggle, mobile nav, pricing billing, panel tilt */
 (function(){
   'use strict';
   var root = document.documentElement;
 
   // ---- theme ----
-  function apply(t){ root.setAttribute('data-theme', t); try{ localStorage.setItem('cue-theme', t); }catch(e){} }
-  var saved; try{ saved = localStorage.getItem('cue-theme'); }catch(e){}
+  function apply(t){ root.setAttribute('data-theme', t); try{ localStorage.setItem('daxio-theme', t); }catch(e){} }
+  var saved; try{ saved = localStorage.getItem('daxio-theme'); }catch(e){}
   if(!saved) saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
   apply(saved);
 
