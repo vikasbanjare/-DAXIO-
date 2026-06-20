@@ -1,0 +1,53 @@
+DAXIO — WHAT CHANGED IN THIS BUILD
+===================================
+
+HOW TO SEE THE CHANGES (30 seconds):
+1. Double-click app.html in this folder — it opens the review app.
+2. Press the "?" key  -> a NEW "Keyboard shortcuts" panel appears.
+3. Hover any review card -> a NEW "..." menu appears (Rename / Delete a review).
+4. The "Search comments..." box under the filters is NEW.
+5. Open index.html -> the tab now shows a Daxio favicon (NEW).
+If you see those, you have the new version.
+
+-----------------------------------
+REVIEW APP (app.html)
+-----------------------------------
+Data safety
+- Fixed a silent data-loss bug: if browser storage fills up you now get a
+  warning instead of losing comments on reload.
+- A corrupted/old save can no longer wipe your real reviews.
+- Old video files are now cleaned up properly (no more storage bloat/leaks).
+
+New things you can do
+- Rename or DELETE a review (hover a card -> "..." menu). With UNDO.
+- Undo a deleted comment (Undo button in the toast).
+- Keyboard shortcuts overlay (press "?") + J / K / L playback keys.
+- Search comments (search box in the review panel).
+- Snapshot the current frame as a PNG ("Snapshot" button).
+- Export now shows a friendly message instead of an empty file when there
+  are no comments.
+
+Polish & correctness
+- Error messages show a red icon (not a green "success" check).
+- Accessibility: proper button labels, landmarks, focus states, contrast.
+- Mobile/responsive: real phone layout, larger touch targets, wrapping controls.
+- Smoother video playback (pins no longer rebuilt every frame).
+- "Cue" leftover branding removed from Premiere/Final Cut exports -> "Daxio".
+
+-----------------------------------
+MARKETING SITE (index / product / pricing)
+-----------------------------------
+- Social sharing now works: Open Graph + Twitter preview images, plus a
+  favicon, canonical URLs and light/dark theme-color.
+- Mobile menu now CLOSES after you tap a link (it used to stay stuck open).
+- Studio annual price corrected to $31 so the "-20%" claim is true.
+- Accessibility: main landmarks, ARIA states on the menu/theme/billing toggles.
+- Dead footer links no longer jump you to the top of the page.
+- New files: favicon.svg, og-image.svg, robots.txt, sitemap.xml, 404.html.
+
+-----------------------------------
+TO PUT IT LIVE ON GITHUB
+-----------------------------------
+Upload ALL the files in this folder to your repo root (replace the old ones),
+commit, then hard-refresh the site. The 5 new files (favicon.svg, og-image.svg,
+robots.txt, sitemap.xml, 404.html) must be uploaded too.
