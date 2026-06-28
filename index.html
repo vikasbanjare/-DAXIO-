@@ -1,316 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Daxio — Feedback that lands on the exact frame</title>
-<meta name="description" content="Daxio is a fast creative-review workspace for video teams — frame-accurate comments, version stacks, approvals, and camera-to-cloud capture, all in one place." />
-<link rel="canonical" href="https://vikasbanjare.github.io/-DAXIO-/" />
+<title>Daxio — Review</title>
+<meta name="description" content="Daxio — frame-accurate creative review for video teams." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-<meta name="theme-color" content="#F2ECE0" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#100E0B" media="(prefers-color-scheme: dark)" />
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="Daxio" />
-<meta property="og:url" content="https://vikasbanjare.github.io/-DAXIO-/" />
-<meta property="og:title" content="Daxio — Feedback that lands on the exact frame" />
-<meta property="og:description" content="A fast creative-review workspace for video teams — frame-accurate comments, version stacks, approvals, and camera-to-cloud capture." />
-<meta property="og:image" content="https://vikasbanjare.github.io/-DAXIO-/og-image.svg" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Daxio — Feedback that lands on the exact frame" />
-<meta name="twitter:description" content="Frame-accurate creative review for video teams." />
-<meta name="twitter:image" content="https://vikasbanjare.github.io/-DAXIO-/og-image.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="daxio.css" />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="app.css" />
+<!-- Your public Supabase config (copy config.example.js -> config.js and fill in). -->
+<script src="config.js"></script>
 </head>
 <body>
 
-<!-- RIBBON -->
-<div class="ribbon"><div class="wrap">
-  <span class="tag">New</span>
-  <span style="opacity:.92">Daxio Capture is live — push footage from camera to cloud the instant you call cut.</span>
-  <a href="#capture">See how &rarr;</a>
-</div></div>
+<!-- Loading -->
+<div id="loading" class="screen-center"><div class="spinner" aria-hidden="true"></div></div>
 
-<!-- NAV -->
-<header class="nav"><div class="nav-inner">
-  <a href="index.html" class="brand"><svg class="logo" viewBox="0 0 40 40" width="30" height="30" aria-hidden="true"><rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="#F94B1E"/><path d="M20 8.6c-4.2 0-7.6 3.2-7.6 7.1 0 5 7.6 13 7.6 13s7.6-8 7.6-13c0-3.9-3.4-7.1-7.6-7.1z" fill="#fff"/><path d="M17.4 13.1l5.2 3-5.2 3z" fill="#F94B1E"/></svg><span class="brand-name">Daxio</span></a>
-  <nav class="nav-links" id="navLinks">
-    <a href="#review" class="active">Review</a>
-    <a href="product.html">Product</a>
-    <a href="#capture">Capture</a>
-    <a href="#security">Security</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="app.html">Demo</a>
-  </nav>
-  <div class="nav-right">
-    <a href="app.html" class="signin">Sign in</a>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-    </button>
-    <a href="app.html" class="btn btn-dark btn-sm">Try it free</a>
-    <button class="hamburger" id="hamburger" aria-label="Menu">☰</button>
-  </div>
-</div></header>
-
-<main id="main">
-<!-- HERO -->
-<section class="hero" id="top"><div class="glow glow-hero"></div>
-  <div class="wrap" data-hero>
-    <div class="eyebrow"><span class="dot"></span>Creative review · built for video teams</div>
-    <h1 class="h1">Feedback that lands on the <span class="accent">exact frame.</span></h1>
-    <p class="lead">Daxio keeps your footage, comments, and approvals in one fast workspace — so your team stops chasing files in email threads and starts shipping cuts that everyone signed off on.</p>
-    <div class="hero-cta">
-      <a href="app.html" class="btn btn-primary">Start for free</a>
-      <a href="product.html" class="btn btn-outline"><span class="play-dot"></span>Watch the 2-min tour</a>
-    </div>
-    <div class="hero-note">Free for up to 2 members · No card required</div>
-
-    <div style="margin-top:56px;">
-      <div class="device">
-        <div class="float-card">
-          <span class="av" style="width:30px;height:30px;background:#3FB984;color:#07150F;font-size:12px;">JM</span>
-          <div style="line-height:1.3"><div style="font-size:13px;font-weight:700;">Approved v4 ✓</div><div class="mono" style="font-size:10px;color:#8A8275;">just now · 00:42:17</div></div>
-        </div>
-        <div class="device-bar">
-          <div style="display:flex;align-items:center;gap:12px;min-width:0;">
-            <div class="dots"><span style="background:#F94B1E"></span><span style="background:#E8B04B"></span><span style="background:#3FB984"></span></div>
-            <span class="proj">Northwind — Spring Campaign</span>
-            <span class="chip-rev">In Review</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;">
-            <div style="display:flex;">
-              <span class="av" style="width:26px;height:26px;background:#6B5BFF;color:#fff;font-size:10px;border:2px solid #0B0A08;">AR</span>
-              <span class="av" style="width:26px;height:26px;background:#F94B1E;color:#17130D;font-size:10px;border:2px solid #0B0A08;margin-left:-8px;">TS</span>
-              <span class="av" style="width:26px;height:26px;background:#3FB984;color:#07150F;font-size:10px;border:2px solid #0B0A08;margin-left:-8px;">JM</span>
-            </div>
-            <button class="btn btn-primary btn-sm" style="padding:8px 14px;font-size:12px;">Share</button>
-          </div>
-        </div>
-        <div style="display:flex;gap:12px;align-items:stretch;">
-          <div style="flex:2 1 0;min-width:0;display:flex;flex-direction:column;gap:10px;">
-            <div class="screen demo-reel">
-              <div class="reel-bg"></div>
-              <div class="reel-light"></div>
-              <div class="sheen"></div>
-              <div class="reel-grain"></div>
-              <div class="pin demo-pin" style="top:30%;left:58%;background:#F94B1E;">2</div>
-              <div class="tc" style="bottom:12px;left:12px;">00:42:17 / 01:58:04</div>
-              <div class="tc" style="bottom:12px;right:12px;font-size:11px;">4K · ProRes</div>
-            </div>
-            <div style="position:relative;height:38px;background:#141210;border:1px solid var(--dev-line);border-radius:10px;padding:0 12px;display:flex;align-items:center;">
-              <div style="position:relative;width:100%;height:5px;background:rgba(255,255,255,0.12);border-radius:999px;">
-                <div class="demo-progress" style="position:absolute;left:0;top:0;height:5px;width:18%;background:#F94B1E;border-radius:999px;"></div>
-                <span class="demo-playhead" style="position:absolute;top:-19px;width:2px;height:24px;background:#FBF8F1;left:18%;box-shadow:0 0 0 3px rgba(11,10,8,0.6);"></span>
-                <span style="position:absolute;top:-7px;left:22%;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid #E8B04B;"></span>
-                <span style="position:absolute;top:-7px;left:71%;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid #6B5BFF;"></span>
-              </div>
-            </div>
-          </div>
-          <div style="flex:1 1 0;min-width:220px;background:#110F0D;border:1px solid var(--dev-line);border-radius:13px;padding:14px;display:flex;flex-direction:column;gap:12px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;"><span style="color:#FBF8F1;font-weight:700;font-size:14px;">Comments</span><span class="mono" style="font-size:11px;color:#8A8275;background:rgba(255,255,255,0.06);padding:2px 8px;border-radius:999px;">3</span></div>
-            <div class="cmt"><span class="av" style="flex:none;width:28px;height:28px;background:#6B5BFF;color:#fff;font-size:10px;">AR</span><div class="ct"><div style="display:flex;gap:8px;align-items:baseline;"><span class="nm">Aria R.</span><span class="mono" style="font-size:10px;color:#E8B04B;">00:12:04</span></div><div class="tx">Can we hold this wide a beat longer?</div></div></div>
-            <div class="cmt demo-note" style="background:rgba(249,75,30,0.10);border-left:2px solid #F94B1E;margin:0 -6px;padding:8px 6px 8px 10px;border-radius:6px;"><span class="av" style="flex:none;width:28px;height:28px;background:#F94B1E;color:#17130D;font-size:10px;">TS</span><div class="ct"><div style="display:flex;gap:8px;align-items:baseline;"><span class="nm">Theo S.</span><span class="mono" style="font-size:10px;color:#F94B1E;">00:42:17</span></div><div class="tx" style="color:#C9C2B4;">Grade feels warm — pull highlights back ~5%.</div></div></div>
-            <div class="cmt"><span class="av" style="flex:none;width:28px;height:28px;background:#3FB984;color:#07150F;font-size:10px;">JM</span><div class="ct"><div style="display:flex;gap:8px;align-items:baseline;"><span class="nm">Jordan M.</span><span class="mono" style="font-size:10px;color:#6B5BFF;">01:28:55</span></div><div class="tx">Title card looks great. Approved ✓</div></div></div>
-            <div style="margin-top:auto;display:flex;align-items:center;gap:8px;background:#1B1815;border:1px solid var(--dev-line);border-radius:9px;padding:9px 11px;"><span class="mono" style="font-size:10px;color:#F94B1E;">00:42:17</span><span style="color:#6E6759;font-size:12px;">Leave a comment…</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- Sign in -->
+<section id="signin" class="screen-center" hidden>
+  <div class="auth-card">
+    <div class="brand brand-lg"><span class="logo" aria-hidden="true"></span><span>Daxio</span></div>
+    <p class="auth-sub">Sign in to review, comment, and approve.</p>
+    <button class="btn btn-oauth" data-oauth="google"><span class="g">G</span> Continue with Google</button>
+    <button class="btn btn-oauth" data-oauth="azure"><span class="m">⊞</span> Continue with Microsoft</button>
+    <div class="divider"><span>or</span></div>
+    <form id="emailForm">
+      <input id="email" type="email" required placeholder="you@studio.com" aria-label="Email" />
+      <button class="btn btn-primary" type="submit">Email me a magic link</button>
+    </form>
+    <p id="authMsg" class="auth-msg" hidden></p>
   </div>
 </section>
 
-<!-- LOGO WALL -->
-<section class="section-sm"><div class="wrap">
-  <p class="center mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 26px;">Trusted by post houses, agencies &amp; in-house teams</p>
-  <div class="logos">
-    <div>Northwind</div><div>Lumen<span class="accent">.</span></div><div class="m">KESTREL</div><div>Atlas Post</div><div>Verge</div><div class="m">SUNDIAL</div>
-  </div>
-</div></section>
+<!-- App -->
+<div id="app" hidden>
+  <header class="topbar">
+    <div class="tb-left">
+      <span class="brand"><span class="logo" aria-hidden="true"></span><span>Daxio</span></span>
+      <span id="wsName" class="ws-name"></span>
+    </div>
+    <div class="tb-right">
+      <span id="userChip" class="user-chip"></span>
+      <button id="signOut" class="btn btn-ghost btn-sm">Sign out</button>
+    </div>
+  </header>
 
-<!-- REVIEW -->
-<section class="section" id="review"><div class="wrap"><div class="split">
-  <div>
-    <div class="eyebrow">01 — Review</div>
-    <h2 class="h2" style="margin-top:18px;">Pin a note to the frame, not the email.</h2>
-    <p class="lead">Drag a comment straight onto the canvas and Daxio stamps it with the exact timecode. Draw, point, and reply in thread — every note is anchored to the moment it's about.</p>
-    <ul class="checks">
-      <li><span class="ck">✓</span><span><strong>Frame-accurate timecodes</strong> on every comment, down to the field.</span></li>
-      <li><span class="ck">✓</span><span><strong>Draw &amp; annotate</strong> directly on the canvas, frame by frame.</span></li>
-      <li><span class="ck">✓</span><span><strong>Resolve &amp; track</strong> notes so the edit bay always knows what's left.</span></li>
-    </ul>
-  </div>
-  <div class="tilt-zone" data-tilt>
-    <div class="device" style="padding:18px;">
-      <div class="screen" style="aspect-ratio:4/3;background:linear-gradient(150deg,#243042 0%,#3C2E4A 50%,#7A3B57 100%);">
-        <div class="sheen"></div>
-        <div class="pin rv-pin1" style="top:22%;left:30%;width:28px;height:28px;background:#E8B04B;">1</div>
-        <div class="pin rv-pin2" style="top:54%;left:62%;width:28px;height:28px;background:#F94B1E;">2</div>
-        <svg viewBox="0 0 100 75" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"><path class="rv-draw" pathLength="1" d="M30 44 q14 -8 30 2" fill="none" stroke="#FBF8F1" stroke-width="1.2" stroke-dasharray="1" stroke-dashoffset="1" opacity="0.85"/></svg>
-        <div class="tc" style="bottom:12px;left:12px;font-size:11px;">00:12:04</div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="side-head">Projects <button id="newProject" class="icon-add" aria-label="New project">+</button></div>
+      <ul id="projectList" class="project-list"></ul>
+    </aside>
+
+    <main class="main">
+      <div class="main-head">
+        <h1 id="projectTitle">—</h1>
+        <label class="btn btn-primary upbtn">+ New review<input id="fileInput" type="file" accept="image/*,video/*" hidden /></label>
       </div>
-      <div class="rv-note" style="margin-top:14px;display:flex;gap:10px;align-items:flex-start;background:#141210;border-radius:11px;padding:12px;">
-        <span class="av" style="flex:none;width:30px;height:30px;background:#E8B04B;color:#17130D;font-size:11px;">AR</span>
-        <div style="line-height:1.45"><div style="display:flex;gap:8px;align-items:baseline;"><span class="nm" style="font-size:13px;">Aria R.</span><span class="mono" style="font-size:10px;color:#E8B04B;">drew on 00:12:04</span></div><div class="tx" style="font-size:13px;">Soften this edge — feels a touch sharp against the sky.</div></div>
-      </div>
-    </div>
+      <div id="uploadBar" class="upload-bar" hidden><div class="up-label" id="upLabel"></div><div class="up-track"><div id="upFill" class="up-fill"></div></div></div>
+      <div id="assetGrid" class="grid"></div>
+      <div id="emptyState" class="empty" hidden></div>
+    </main>
   </div>
-</div></div></section>
 
-<!-- SHARE -->
-<section class="section" style="padding-top:0;"><div class="wrap"><div class="split">
-  <div style="background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);">
-    <div style="display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;padding:10px 12px;">
-      <span class="mono" style="font-size:13px;color:var(--ink-3);">daxio.co/r/</span><span class="mono" style="font-size:13px;color:var(--ink);font-weight:700;">northwind-v4</span>
-      <button class="btn btn-dark btn-sm" style="margin-left:auto;padding:7px 13px;font-size:12px;">Copy link</button>
-    </div>
-    <div class="screen" style="margin-top:14px;background:linear-gradient(135deg,#14322E 0%,#1F5347 45%,#C7892F 100%);">
-      <div class="bigplay sh-play"><span></span></div>
-      <div class="tc" style="top:12px;left:12px;font-size:10px;border-radius:999px;">🔒 Password protected</div>
-    </div>
-    <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">
-      <div class="sh-row sh-row1" style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-2);"><span style="width:8px;height:8px;border-radius:50%;background:#3FB984;"></span><strong style="color:var(--ink);">Client · Maya K.</strong> watched to the end<span class="mono" style="margin-left:auto;font-size:11px;color:var(--muted);">2m ago</span></div>
-      <div class="sh-row sh-row2" style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-2);"><span style="width:8px;height:8px;border-radius:50%;background:#E8B04B;"></span><strong style="color:var(--ink);">Brand · Devon P.</strong> watched 0:00–1:12<span class="mono" style="margin-left:auto;font-size:11px;color:var(--muted);">14m ago</span></div>
-    </div>
-  </div>
-  <div>
-    <div class="eyebrow">02 — Share</div>
-    <h2 class="h2" style="margin-top:18px;">One link. The right people. Zero downloads.</h2>
-    <p class="lead">Send a beautiful, password-protected review page in two clicks. Clients watch in crisp playback, leave notes without an account, and you see exactly who opened it and when.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:30px;">
-      <div class="stat-mini"><div class="big">2-click</div><div class="lbl">share to anyone, anywhere</div></div>
-      <div class="stat-mini"><div class="big">View logs</div><div class="lbl">see opens, plays &amp; reactions</div></div>
-    </div>
-  </div>
-</div></div></section>
-
-<!-- CAPTURE (dark) -->
-<section class="section section--contrast" id="capture"><div class="glow glow-tl"></div>
-  <div class="wrap"><div class="split">
-    <div>
-      <div class="eyebrow"><span class="dot"></span>03 — Capture</div>
-      <h2 class="h2" style="margin-top:18px;">From the camera to the cloud the moment you cut.</h2>
-      <p class="lead">Daxio Capture streams proxies off the set in real time. Your editor is cutting selects before the crew has wrapped, and dailies are waiting for the director before they reach the car park.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:26px;margin-top:34px;">
-        <div><div style="font-family:var(--f-display);font-weight:800;font-size:40px;letter-spacing:-0.03em;color:var(--cream);">&lt; 8s</div><div class="mono" style="font-size:12px;color:#8A8275;margin-top:2px;">set → cloud latency</div></div>
-        <div><div style="font-family:var(--f-display);font-weight:800;font-size:40px;letter-spacing:-0.03em;color:var(--cream);">Any rig</div><div class="mono" style="font-size:12px;color:#8A8275;margin-top:2px;">cinema, mirrorless &amp; phone</div></div>
-        <div><div style="font-family:var(--f-display);font-weight:800;font-size:40px;letter-spacing:-0.03em;color:var(--cream);">Offline</div><div class="mono" style="font-size:12px;color:#8A8275;margin-top:2px;">queues &amp; syncs on signal</div></div>
+  <!-- Review overlay -->
+  <div id="review" class="review" hidden>
+    <div class="review-head">
+      <button id="reviewBack" class="btn btn-ghost btn-sm">← Back</button>
+      <span id="reviewTitle" class="review-title"></span>
+      <div class="review-actions">
+        <select id="versionSelect" class="vsel" aria-label="Version"></select>
+        <button id="shareBtn" class="btn btn-soft btn-sm">Share link</button>
       </div>
     </div>
-    <div class="tilt-zone" data-tilt>
-      <div class="device" style="background:#141210;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><span style="color:#C9C2B4;font-size:13px;font-weight:700;">Capture · A-Cam</span><span class="chip-rev" style="color:#F94B1E;background:rgba(249,75,30,0.16);display:inline-flex;align-items:center;gap:6px;"><span style="width:6px;height:6px;border-radius:50%;background:#F94B1E;animation:cuePulse 1.4s ease-in-out infinite;"></span>Uploading</span></div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="background:#1B1815;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:12px;"><span class="mono" style="font-size:11px;color:#8A8275;flex:none;">A001_C014</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.10);border-radius:999px;overflow:hidden;"><div class="cap-bar1" style="height:100%;width:100%;background:#3FB984;"></div></div><span class="mono" style="font-size:11px;color:#3FB984;flex:none;">done</span></div>
-          <div style="background:#1B1815;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:12px;"><span class="mono" style="font-size:11px;color:#8A8275;flex:none;">A001_C015</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.10);border-radius:999px;overflow:hidden;"><div class="cap-bar2" style="height:100%;width:68%;background:#F94B1E;"></div></div><span class="mono" style="font-size:11px;color:#F94B1E;flex:none;">68%</span></div>
-          <div style="background:#1B1815;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:12px;"><span class="mono" style="font-size:11px;color:#8A8275;flex:none;">A001_C016</span><div style="flex:1;height:6px;background:rgba(255,255,255,0.10);border-radius:999px;overflow:hidden;"><div class="cap-bar3" style="height:100%;width:12%;background:#6E6759;"></div></div><span class="mono" style="font-size:11px;color:#8A8275;flex:none;">queued</span></div>
+    <div class="review-body">
+      <div id="stage" class="stage"></div>
+      <aside class="comments">
+        <div id="commentList" class="comment-list"></div>
+        <div class="composer">
+          <span id="stampChip" class="stamp" hidden></span>
+          <textarea id="commentInput" rows="2" placeholder="Leave a comment…"></textarea>
+          <button id="postBtn" class="btn btn-primary btn-sm" disabled>Comment</button>
         </div>
-        <div style="margin-top:14px;border-top:1px dashed rgba(255,255,255,0.10);padding-top:12px;display:flex;justify-content:space-between;" class="mono"><span style="font-size:11px;color:#8A8275;">3 clips · 14.2 GB</span><span style="font-size:11px;color:#3FB984;">↑ synced to Editorial</span></div>
-      </div>
-    </div>
-  </div></div>
-</section>
-
-<!-- WORKFLOW -->
-<section class="section" id="workflow"><div class="wrap">
-  <div class="center" style="max-width:720px;margin:0 auto 56px;">
-    <div class="eyebrow">04 — Workflow</div>
-    <h2 class="h2" style="margin-top:16px;">Run the whole project, not just the playback.</h2>
-    <p class="lead" style="margin-top:20px;">Statuses, versions, approvals, and handoffs — Daxio gives every cut a home and every reviewer a clear next step.</p>
-  </div>
-  <div class="grid-3">
-    <div class="card"><div class="ico" aria-hidden="true">▦</div><h3 class="h3">Version stacks</h3><p>Stack v1 → v9 in one tile. Compare side-by-side and reviewers always land on the latest.</p></div>
-    <div class="card"><div class="ico" aria-hidden="true">◴</div><h3 class="h3">Status &amp; approvals</h3><p>In Review, Needs Changes, Approved — track sign-off at a glance and require it before delivery.</p></div>
-    <div class="card"><div class="ico" aria-hidden="true">⚡</div><h3 class="h3">Automations</h3><p>When a cut is approved, auto-notify the colorist, move the card, and kick off the export.</p></div>
-  </div>
-</div></section>
-
-<!-- STATS -->
-<section class="section-sm section--accent"><div class="wrap"><div class="stats">
-  <div><div class="n">11M+</div><div class="l">clips reviewed</div></div>
-  <div><div class="n">63%</div><div class="l">faster sign-off</div></div>
-  <div><div class="n">190</div><div class="l">countries shipping</div></div>
-  <div><div class="n">4.9</div><div class="l">avg. team rating</div></div>
-</div></div></section>
-
-<!-- SECURITY -->
-<section class="section" id="security"><div class="wrap"><div class="split">
-  <div>
-    <div class="eyebrow">05 — Security</div>
-    <h2 class="h2" style="margin-top:18px;">Studio-grade security, before anyone asks.</h2>
-    <p class="lead">Unreleased work deserves real protection. Daxio ships with forensic watermarking, granular access, and audited infrastructure that legal and IT sign off on the first time.</p>
-  </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-    <div class="card" style="padding:20px;"><div class="mono accent" style="font-weight:700;font-size:13px;letter-spacing:.04em;">SOC 2 II</div><p style="color:var(--ink-2);">Independently audited &amp; continuously monitored.</p></div>
-    <div class="card" style="padding:20px;"><div class="mono accent" style="font-weight:700;font-size:13px;letter-spacing:.04em;">Watermark</div><p style="color:var(--ink-2);">Forensic, session-level marks on every stream.</p></div>
-    <div class="card" style="padding:20px;"><div class="mono accent" style="font-weight:700;font-size:13px;letter-spacing:.04em;">SSO / SCIM</div><p style="color:var(--ink-2);">SAML sign-on and automated provisioning.</p></div>
-    <div class="card" style="padding:20px;"><div class="mono accent" style="font-weight:700;font-size:13px;letter-spacing:.04em;">Audit log</div><p style="color:var(--ink-2);">Every view, download &amp; share, on the record.</p></div>
-  </div>
-</div></div></section>
-
-<!-- TESTIMONIAL -->
-<section class="section section--contrast"><div class="wrap center" style="max-width:980px;">
-  <div class="eyebrow" style="justify-content:center;margin-bottom:28px;">Why teams switch</div>
-  <blockquote class="quote">"We cut a two-week feedback loop down to two days. Our directors leave notes on the actual frame, and my editors wake up knowing <span class="accent">exactly what to fix.</span>"</blockquote>
-  <div class="byline"><span class="av">PV</span><div style="text-align:left;"><div style="font-weight:700;font-size:15px;color:var(--cream);">Priya Varma</div><div style="font-size:13px;color:#8A8275;">Head of Post · Northwind Studios</div></div></div>
-</div></section>
-
-<!-- INTEGRATIONS -->
-<section class="section"><div class="wrap center">
-  <div class="eyebrow" style="justify-content:center;margin-bottom:16px;">Fits your bay</div>
-  <h2 class="h2" style="margin:0 auto;max-width:18ch;">Plugs into the tools your editors already live in.</h2>
-  <div class="pills">
-    <span class="pill">Premiere Pro</span><span class="pill">DaVinci Resolve</span><span class="pill">Final Cut Pro</span><span class="pill">After Effects</span><span class="pill">Slack</span><span class="pill">Dropbox</span><span class="pill">Google Drive</span><span class="pill">+ open API</span>
-  </div>
-</div></section>
-
-<!-- PRICING (preview → full page) -->
-<section class="section" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);"><div class="wrap">
-  <div class="center" style="max-width:640px;margin:0 auto 44px;">
-    <div class="eyebrow" style="justify-content:center;margin-bottom:16px;">Pricing</div>
-    <h2 class="h2">Plans that scale from solo to studio.</h2>
-    <div class="bill-toggle" id="billing"><button data-bill="monthly">Monthly</button><button data-bill="annual" class="on">Annual <span class="mono accent" style="font-size:10px;">−20%</span></button></div>
-  </div>
-  <div class="price-grid">
-    <div class="price"><div class="tier">Free</div><div class="amt">$0</div><div class="sub">for trying Daxio out</div><a href="app.html" class="btn btn-outline" style="margin-top:22px;justify-content:center;width:100%;font-size:14px;padding:12px;">Get started</a><ul><li>2 members</li><li>3 active projects</li><li>Frame-accurate comments</li><li>2 GB storage</li></ul></div>
-    <div class="price"><div class="tier">Pro</div><div style="display:flex;align-items:baseline;gap:6px;margin:14px 0 2px;"><span class="amt" style="margin:0;" data-monthly="$19" data-annual="$15">$15</span><span class="per">/seat·mo</span></div><div class="sub" data-billnote>billed annually</div><a href="app.html" class="btn btn-outline" style="margin-top:22px;justify-content:center;width:100%;font-size:14px;padding:12px;">Start Pro</a><ul><li>Everything in Free</li><li>Unlimited projects</li><li>Version stacks &amp; approvals</li><li>250 GB storage</li></ul></div>
-    <div class="price featured"><span class="badge">Most popular</span><div class="tier">Studio</div><div style="display:flex;align-items:baseline;gap:6px;margin:14px 0 2px;"><span class="amt" style="margin:0;" data-monthly="$39" data-annual="$31">$31</span><span class="per">/seat·mo</span></div><div class="sub" data-billnote>billed annually</div><a href="app.html" class="btn btn-primary" style="margin-top:22px;justify-content:center;width:100%;font-size:14px;padding:12px;">Start Studio</a><ul><li>Everything in Pro</li><li>Daxio Capture (C2C)</li><li>Forensic watermarking</li><li>2 TB storage &amp; automations</li></ul></div>
-    <div class="price"><div class="tier">Enterprise</div><div class="amt">Let's talk</div><div class="sub">for studios &amp; networks</div><a href="mailto:sales@daxio.app" class="btn btn-outline" style="margin-top:22px;justify-content:center;width:100%;font-size:14px;padding:12px;">Contact sales</a><ul><li>Everything in Studio</li><li>SSO / SCIM &amp; audit log</li><li>Dedicated support</li><li>Custom storage &amp; SLA</li></ul></div>
-  </div>
-  <div class="center" style="margin-top:32px;"><a href="pricing.html" class="btn btn-outline">Compare all plans &rarr;</a></div>
-</div></section>
-
-<!-- FINAL CTA -->
-<section class="section section--contrast" style="padding:110px 0;"><div class="glow glow-b"></div>
-  <div class="wrap center" style="max-width:860px;">
-    <h2 class="h1" style="font-size:clamp(38px,5.4vw,72px);">Get everyone on the <span class="accent">same frame.</span></h2>
-    <p class="lead" style="margin:24px auto 0;max-width:50ch;">Start free in under a minute. Invite your first reviewer and send a cut before your coffee's cold.</p>
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:36px;">
-      <a href="app.html" class="btn btn-primary" style="font-size:17px;padding:16px 30px;">Start for free</a>
-      <a href="product.html" class="btn btn-outline" style="color:var(--cream);border-color:rgba(255,255,255,0.16);">Book a demo</a>
+      </aside>
     </div>
   </div>
-</section>
+</div>
 
-</main>
-<!-- FOOTER -->
-<footer class="footer"><div class="wrap">
-  <div class="footer-grid">
-    <div>
-      <a href="index.html" class="brand"><svg class="logo" viewBox="0 0 40 40" width="30" height="30" aria-hidden="true"><rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="#F94B1E"/><path d="M20 8.6c-4.2 0-7.6 3.2-7.6 7.1 0 5 7.6 13 7.6 13s7.6-8 7.6-13c0-3.9-3.4-7.1-7.6-7.1z" fill="#fff"/><path d="M17.4 13.1l5.2 3-5.2 3z" fill="#F94B1E"/></svg><span class="brand-name">Daxio</span></a>
-      <p style="font-size:14px;line-height:1.6;color:#8A8275;max-width:30ch;margin:0 0 18px;">The creative review and collaboration platform for video teams who'd rather be editing.</p>
-      <div class="mono" style="font-size:11px;color:#6E6759;">SOC 2 Type II · GDPR ready</div>
-    </div>
-    <div class="col"><div class="col-h">Product</div><a href="#review">Review</a><a href="product.html">Product</a><a href="#capture">Capture</a><a href="pricing.html">Pricing</a></div>
-    <div class="col"><div class="col-h">Company</div><a href="#">About</a><a href="#">Careers</a><a href="#">Customers</a><a href="#">Blog</a></div>
-    <div class="col"><div class="col-h">Resources</div><a href="#">Docs</a><a href="#">API</a><a href="#security">Security</a><a href="#">Status</a></div>
-    <div class="col"><div class="col-h">Connect</div><a href="mailto:hello@daxio.app">Contact</a><a href="#">X / Twitter</a><a href="#">LinkedIn</a><a href="#">YouTube</a></div>
-  </div>
-  <div class="footer-bottom"><span>© 2026 Daxio Labs, Inc. All rights reserved.</span><div><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div></div>
-</div></footer>
+<div id="toast" class="toast" hidden></div>
 
-<script src="daxio.js"></script>
+<script type="module" src="lib/app.js"></script>
 </body>
 </html>
